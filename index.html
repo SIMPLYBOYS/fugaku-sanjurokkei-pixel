@@ -86,6 +86,23 @@
     box-shadow:0 0 14px #e3b23caa,inset 0 0 14px #e3b23c55;animation:hintpulse 1.4s ease-out forwards}
   @keyframes hintpulse{0%{opacity:0;transform:scale(1.5)}22%{opacity:1;transform:scale(1)}78%{opacity:1}100%{opacity:0;transform:scale(1)}}
   #sBack{position:absolute;top:14px;right:16px;z-index:3}
+  .scene-ctrl{position:absolute;top:14px;left:16px;z-index:3}
+  button.on-toggle{background:var(--gold);color:var(--navy2);border-color:var(--gold)}
+  #loupe{position:absolute;width:172px;height:172px;border-radius:50%;border:3px solid var(--gold);
+    box-shadow:0 6px 24px #000c;background-repeat:no-repeat;background-color:#0e1626;
+    image-rendering:auto;pointer-events:none;display:none;z-index:5}
+  #loupe.on{display:block}
+  /* ---------- high-res viewer ---------- */
+  #viewer{position:fixed;inset:0;z-index:40;background:#050a14f7;display:none;overflow:hidden;touch-action:none;cursor:grab}
+  #viewer.on{display:block}
+  #viewer.grabbing{cursor:grabbing}
+  #vimg{position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform;
+    user-select:none;-webkit-user-drag:none;max-width:none}
+  #vcap{position:absolute;top:16px;left:0;right:0;text-align:center;color:var(--foam);z-index:2;
+    font-size:14px;letter-spacing:.16em;text-shadow:0 1px 6px #000;pointer-events:none}
+  #vctrl{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:2;
+    display:flex;gap:8px;background:#0009;padding:8px 10px;border-radius:4px}
+  #vctrl button{min-width:40px}
   /* ---------- unlock / modal ---------- */
   .veil{position:fixed;inset:0;z-index:30;background:#060b16ee;display:none;
     align-items:center;justify-content:center;padding:20px}
@@ -146,15 +163,27 @@
     <div id="sTitle"></div>
   </div>
   <button id="sBack">← 地図へ戻る</button>
+  <button id="loupeBtn" class="scene-ctrl">🔍 拡大鏡</button>
   <div id="stage">
     <div id="frame">
       <img id="sImg" alt="">
       <div id="ripple"></div>
+      <div id="loupe"></div>
     </div>
   </div>
   <div id="finds"></div>
 </div>
 
+<div id="viewer">
+  <div id="vcap"></div>
+  <img id="vimg" alt="">
+  <div id="vctrl">
+    <button onclick="vzoom(1/1.4)">−</button>
+    <button onclick="vzoom(1.4)">＋</button>
+    <button onclick="vreset()">全体</button>
+    <button onclick="document.getElementById('viewer').classList.remove('on')">閉じる</button>
+  </div>
+</div>
 <div class="veil" id="unlock"><div class="card" id="unlockCard"></div></div>
 <div class="veil" id="zukan"><div class="card" id="zukanCard"></div></div>
 <div class="veil" id="emaki"><div id="emakiCard"></div></div>
@@ -252,6 +281,7 @@ function drawWorld(){
 // ---------- scene ----------
 function openScene(p){
   cur=p;
+  loupeOff();
   $('#sTitle').innerHTML=`<b>${p.ja}</b><span>${p.romaji}</span>`;
   const img=$('#sImg'); img.src='game-assets/scenes/'+p.slug+'.png';
   $('#scene').classList.add('on');
@@ -310,6 +340,60 @@ $('#sImg').addEventListener('click',e=>{
 });
 $('#sBack').onclick=()=>{$('#scene').classList.remove('on');drawWorld()};
 
+// ---------- 拡大鏡 (loupe): 鏡片顯示高解析真跡 ----------
+let loupeOn=false;
+function loupeOff(){ loupeOn=false; const b=$('#loupeBtn'); if(b)b.classList.remove('on-toggle'); const lp=$('#loupe'); if(lp)lp.classList.remove('on'); }
+$('#loupeBtn').onclick=()=>{
+  loupeOn=!loupeOn;
+  $('#loupeBtn').classList.toggle('on-toggle',loupeOn);
+  if(loupeOn) $('#loupe').style.backgroundImage=`url(game-assets/originals/${cur.slug}.jpg)`;
+  else $('#loupe').classList.remove('on');
+};
+$('#sImg').addEventListener('mousemove',e=>{
+  if(!loupeOn) return;
+  const img=e.currentTarget, r=img.getBoundingClientRect();
+  const nx=(e.clientX-r.left)/r.width, ny=(e.clientY-r.top)/r.height;
+  const lp=$('#loupe');
+  if(nx<0||nx>1||ny<0||ny>1){ lp.classList.remove('on'); return; }
+  const D=172, Z=2.4, bgW=img.clientWidth*Z, bgH=img.clientHeight*Z;
+  lp.style.backgroundSize=`${bgW}px ${bgH}px`;
+  lp.style.backgroundPosition=`${D/2-nx*bgW}px ${D/2-ny*bgH}px`;
+  lp.style.left=(img.offsetLeft+nx*img.clientWidth-D/2)+'px';
+  lp.style.top=(img.offsetTop+ny*img.clientHeight-D/2)+'px';
+  lp.classList.add('on');
+});
+$('#sImg').addEventListener('mouseleave',()=>$('#loupe').classList.remove('on'));
+
+// ---------- 高解像度ビューア (pan + zoom, uses game-assets/large) ----------
+let V={scale:1,tx:0,ty:0,fit:1,nw:1,nh:1};
+function vapply(){ $('#vimg').style.transform=`translate(${V.tx}px,${V.ty}px) scale(${V.scale})`; }
+function vreset(){
+  const vw=innerWidth, vh=innerHeight;
+  V.fit=Math.min(vw/V.nw, vh/V.nh); V.scale=V.fit;
+  V.tx=(vw-V.nw*V.fit)/2; V.ty=(vh-V.nh*V.fit)/2; vapply();
+}
+function vzoomAt(factor,cx,cy){
+  const s=Math.max(V.fit*0.9, Math.min(V.fit*8, V.scale*factor)); factor=s/V.scale;
+  V.tx=cx-(cx-V.tx)*factor; V.ty=cy-(cy-V.ty)*factor; V.scale=s; vapply();
+}
+function vzoom(f){ vzoomAt(f, innerWidth/2, innerHeight/2); }
+function openViewer(slug){
+  const img=$('#vimg'), p=byslug(slug);
+  $('#vcap').textContent=p?`${p.ja} ・ ${p.romaji}　（美術館高解像度スキャン）`:'';
+  img.onerror=()=>{ if(!img.src.includes('/originals/')) img.src='game-assets/originals/'+slug+'.jpg'; };
+  img.onload=()=>{ V.nw=img.naturalWidth; V.nh=img.naturalHeight; vreset(); };
+  img.src='game-assets/large/'+slug+'.jpg';
+  $('#viewer').classList.add('on');
+}
+(function(){
+  const el=$('#viewer'); let drag=false,px=0,py=0;
+  el.addEventListener('wheel',e=>{e.preventDefault(); vzoomAt(e.deltaY<0?1.18:1/1.18, e.clientX, e.clientY);},{passive:false});
+  el.addEventListener('pointerdown',e=>{ if(e.target.closest('#vctrl'))return; drag=true;px=e.clientX;py=e.clientY;el.classList.add('grabbing');el.setPointerCapture(e.pointerId); });
+  el.addEventListener('pointermove',e=>{ if(!drag)return; V.tx+=e.clientX-px;V.ty+=e.clientY-py;px=e.clientX;py=e.clientY; vapply(); });
+  el.addEventListener('pointerup',()=>{ drag=false; el.classList.remove('grabbing'); });
+  el.addEventListener('dblclick',e=>{ vzoomAt(V.scale>V.fit*1.5?V.fit/V.scale:2.6, e.clientX, e.clientY); });
+})();
+
 // ---------- unlock ----------
 function showUnlock(p){
   $('#unlockCard').innerHTML=`
@@ -319,6 +403,7 @@ function showUnlock(p){
     <img src="game-assets/originals/${p.slug}.jpg" alt="${p.romaji}">
     <div class="prov">${p.viewpoint}<br>The Metropolitan Museum of Art ・ Open Access (CC0)</div>
     <div class="row">
+      <button onclick="openViewer('${p.slug}')">🔍 高解像度</button>
       <button onclick="closeVeil()">図鑑に収める</button>
       <button onclick="nextPrint()">次の眺望 →</button>
     </div>`;
@@ -337,7 +422,7 @@ $('#zBtn').onclick=showZukan;
 function showZukan(){
   const cells=PRINTS.map(p=>{
     const dn=done(p.slug), playable=p.hits&&p.hits.length;
-    return `<div class="cell ${dn?'':'locked'}">
+    return `<div class="cell ${dn?'':'locked'}" ${dn?`onclick="openViewer('${p.slug}')" style="cursor:pointer" title="高解像度で見る"`:''}>
       ${dn?`<img src="game-assets/originals/${p.slug}.jpg">`:playable?`<img src="game-assets/scenes/${p.slug}.png">`:`<div style="aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;color:var(--dim)">未</div>`}
       <div class="no">${String(p.n).padStart(2,'0')} ${p.group}</div>${p.ja}</div>`}).join('');
   $('#zukanCard').innerHTML=`<h2>図鑑</h2><div class="prov">解鎖 ${PRINTS.filter(p=>done(p.slug)).length} / ${PRINTS.length}　（本切片可玩 ${PRINTS.filter(p=>p.hits).length} 幅）</div>
@@ -530,7 +615,10 @@ function showCert(){
 }
 
 addEventListener('resize',()=>{if($('#scene').classList.contains('on'))renderFinds()});
-addEventListener('keydown',e=>{if(e.key==='Escape'){$('#unlock').classList.remove('on');$('#zukan').classList.remove('on');closeEmaki();$('#cert').classList.remove('on');if($('#scene').classList.contains('on')){$('#scene').classList.remove('on');drawWorld()}}});
+addEventListener('keydown',e=>{if(e.key==='Escape'){
+  if($('#viewer').classList.contains('on')){$('#viewer').classList.remove('on');return;}
+  $('#unlock').classList.remove('on');$('#zukan').classList.remove('on');closeEmaki();$('#cert').classList.remove('on');
+  if($('#scene').classList.contains('on')){$('#scene').classList.remove('on');drawWorld()}}});
 
 // ---------- boot ----------
 fetch('data/prints.json').then(r=>r.json()).then(d=>{

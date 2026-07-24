@@ -6,9 +6,6 @@ __pycache__/
 # raw high-res source scans — re-fetchable via tools/fetch-met.py
 /assets/*.jpg
 
-# unused higher-res tier (no zoom viewer yet) — regen via tools/make-assets.py
-/game-assets/large/
-
 # overworld backdrop candidates — reference only; URLs in docs/overworld-candidates/README.md
 /docs/overworld-candidates/*.jpg
 /docs/overworld-candidates/*.png
