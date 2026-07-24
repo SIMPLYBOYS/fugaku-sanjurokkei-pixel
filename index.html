@@ -192,23 +192,7 @@
 <div id="intro">
   <div id="introMap"><img id="introImg" alt="日本図" src="game-assets/intro-japan.jpg"></div>
   <div id="introVeil"></div>
-  <div id="introText"><div id="introScroll">
-    <h2>冨嶽三十六景 ピクセル</h2>
-    <div class="sub">HOKUSAI ・ THIRTY-SIX VIEWS OF MOUNT FUJI</div>
-    <h2>葛飾北斎</h2>
-    <div class="sub">KATSUSHIKA HOKUSAI ・ 1760–1849</div>
-    <p>江戶浮世繪的巨匠，自號「画狂老人」。<br>一生改名逾三十、遷居逾九十，<br>作畫至九旬，臨終猶嘆<br>「再予我五年，必成真正的畫工」。</p>
-    <div class="sep">✦</div>
-    <p><b>《冨嶽三十六景》</b><br>約 1831–1834 年刊行</p>
-    <p>他以當時舶來的「ベロ藍」——普魯士藍——<br>描繪富士：表富士三十六景，<br>再追加裏富士十景，實為四十六幅。</p>
-    <p>富士在每一幅畫裡都存在，<br>有時巍然當空，<br>有時只是浪谷之後、桶圈之中<br>一座小小的峰。</p>
-    <p>這套版畫東渡歐洲，啟發了莫內、梵谷<br>與整個「日本主義」風潮，<br>《神奈川沖浪裏》更成為<br>世界最著名的畫作之一。</p>
-    <div class="sep">✦</div>
-    <p><b>本作玩法</b><br>在每幅像素化的浮世繪中，<br>尋找三個藏在畫裡的細節，<br>集齊便解鎖美術館典藏的高清原圖。</p>
-    <p class="sub" style="line-height:1.9">畫作：The Metropolitan Museum of Art（CC0）<br>地圖：石川流宣《日本海山潮陸図》1691・NDL</p>
-    <div class="sep">✦</div>
-    <p style="color:var(--gold)">さあ、富士を探す旅へ。<br>出發，尋富士之旅。</p>
-  </div></div>
+  <div id="introText"><div id="introScroll"></div></div>
   <div id="introTitle">冨嶽三十六景 ピクセル</div>
   <div id="introCtrl">
     <button id="introReplay" data-i18n="replay">↺ 重看</button>
@@ -273,8 +257,37 @@ const I18N={
 const FIND_N={zh:n=>`在畫中尋找這 <b>${n}</b> 處`, ja:n=>`画中の この<b>${n}</b>つを探す`};
 const ZUKAN_CT={zh:(a,b)=>`解鎖 ${a} / ${b}`, ja:(a,b)=>`収蔵 ${a} / ${b}`};
 function t(k){ const e=I18N[k]; return e?(e[LANG]??e.zh):k; }
+function CJ(zh, ja){ return (LANG==='ja' && ja) ? ja : (zh||''); }   // 內文選字:日文模式優先 _ja,無則回中文
+const CREDITS={
+  zh:`<h2>冨嶽三十六景 ピクセル</h2><div class="sub">HOKUSAI ・ THIRTY-SIX VIEWS OF MOUNT FUJI</div>
+    <h2>葛飾北斎</h2><div class="sub">KATSUSHIKA HOKUSAI ・ 1760–1849</div>
+    <p>江戶浮世繪的巨匠，自號「画狂老人」。<br>一生改名逾三十、遷居逾九十，<br>作畫至九旬，臨終猶嘆<br>「再予我五年，必成真正的畫工」。</p>
+    <div class="sep">✦</div>
+    <p><b>《冨嶽三十六景》</b><br>約 1831–1834 年刊行</p>
+    <p>他以當時舶來的「ベロ藍」——普魯士藍——<br>描繪富士：表富士三十六景，<br>再追加裏富士十景，實為四十六幅。</p>
+    <p>富士在每一幅畫裡都存在，<br>有時巍然當空，<br>有時只是浪谷之後、桶圈之中<br>一座小小的峰。</p>
+    <p>這套版畫東渡歐洲，啟發了莫內、梵谷<br>與整個「日本主義」風潮，<br>《神奈川沖浪裏》更成為<br>世界最著名的畫作之一。</p>
+    <div class="sep">✦</div>
+    <p><b>本作玩法</b><br>在每幅像素化的浮世繪中，<br>尋找三個藏在畫裡的細節，<br>集齊便解鎖美術館典藏的高清原圖。</p>
+    <p class="sub" style="line-height:1.9">畫作：The Metropolitan Museum of Art（CC0）<br>地圖：石川流宣《日本海山潮陸図》1691・NDL</p>
+    <div class="sep">✦</div>
+    <p style="color:var(--gold)">さあ、富士を探す旅へ。<br>出發，尋富士之旅。</p>`,
+  ja:`<h2>冨嶽三十六景 ピクセル</h2><div class="sub">HOKUSAI ・ THIRTY-SIX VIEWS OF MOUNT FUJI</div>
+    <h2>葛飾北斎</h2><div class="sub">KATSUSHIKA HOKUSAI ・ 1760–1849</div>
+    <p>江戸浮世絵の巨匠、号して「画狂老人」。<br>生涯に三十余たび名を改め、九十余度も居を移し、<br>九十歳まで絵筆をとり、臨終になお<br>「あと五年の命があれば、真の絵師になれように」と嘆じた。</p>
+    <div class="sep">✦</div>
+    <p><b>『冨嶽三十六景』</b><br>天保二〜五年(1831–1834)頃刊行</p>
+    <p>当時舶来の「ベロ藍」——プルシアンブルー——を用い<br>富士を描く。表富士三十六景に、<br>のち裏富士十景を加え、実に四十六図。</p>
+    <p>富士はいずれの図にも必ず在り、<br>あるときは天を圧してそびえ、<br>あるときは波間や桶の輪の中に<br>ごく小さな峰として。</p>
+    <p>この版画は海を渡ってヨーロッパに至り、<br>モネやゴッホ、「ジャポニスム」の潮流を呼び起こした。<br>「神奈川沖浪裏」は<br>世界で最も名高い絵の一つとなった。</p>
+    <div class="sep">✦</div>
+    <p><b>あそびかた</b><br>ピクセル化された各図のなかから、<br>絵に隠された三つの細部を探し出す。<br>すべて見つければ、美術館所蔵の高精細原画が開く。</p>
+    <p class="sub" style="line-height:1.9">画：The Metropolitan Museum of Art（CC0）<br>地図：石川流宣『日本海山潮陸図』1691・NDL</p>
+    <div class="sep">✦</div>
+    <p style="color:var(--gold)">さあ、富士を探す旅へ。</p>`
+};
 let lastUnlock=null, lastViewerSlug=null;
-function setVcap(p){ $('#vcap').innerHTML=p?`<div class="vtitle">${p.ja} ・ ${p.romaji}</div>${p.desc?`<div class="vdesc">${p.desc}</div>`:''}<div class="vmeta">${t('vmeta')}</div>`:''; }
+function setVcap(p){ const dc=p&&CJ(p.desc,p.desc_ja); $('#vcap').innerHTML=p?`<div class="vtitle">${p.ja} ・ ${p.romaji}</div>${dc?`<div class="vdesc">${dc}</div>`:''}<div class="vmeta">${t('vmeta')}</div>`:''; }
 function setLang(l){ LANG=l; try{localStorage.setItem('fugaku.lang',l);}catch(e){} applyLang(); }
 function applyLang(){
   document.documentElement.lang = LANG==='zh'?'zh-Hant':'ja';
@@ -287,6 +300,7 @@ function applyLang(){
   if($('#emaki').classList.contains('on')) showEmaki();
   if($('#cert').classList.contains('on')) showCert();
   if($('#viewer').classList.contains('on') && lastViewerSlug) setVcap(byslug(lastViewerSlug));
+  if($('#intro').classList.contains('on')) playIntro();
 }
 
 function load(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch{return{}}}
@@ -388,7 +402,7 @@ function renderFinds(){
   const got=foundOf(cur.slug);
   const left=cur.hits.length-got.length;
   const chips=cur.hits.map((h,i)=>
-    `<div class="find ${got.includes(i)?'got':''}"><span class="dot">${got.includes(i)?'✓':''}</span><span class="lbl">${h.label}</span></div>`).join('');
+    `<div class="find ${got.includes(i)?'got':''}"><span class="dot">${got.includes(i)?'✓':''}</span><span class="lbl">${CJ(h.label,h.label_ja)}</span></div>`).join('');
   $('#finds').innerHTML=
     `<div id="findPrompt">${left>0?(FIND_N[LANG]||FIND_N.zh)(left):t('find_done')}</div>`+
     chips+(left>0?`<button id="hintBtn" class="hint">${t('hint')}</button>`:'');
@@ -412,7 +426,7 @@ function drawMark(i){
   const m=document.createElement('div'); m.className='mark';
   m.style.left=(ox+h[0]*w)+'px'; m.style.top=(oy+h[1]*ht)+'px';
   m.style.width=(h[2]*w)+'px'; m.style.height=(h[3]*ht)+'px';
-  m.innerHTML=`<b>${cur.hits[i].label}</b>`;
+  m.innerHTML=`<b>${CJ(cur.hits[i].label,cur.hits[i].label_ja)}</b>`;
   fr.appendChild(m);
 }
 $('#sImg').addEventListener('click',e=>{
@@ -520,9 +534,9 @@ function showUnlock(p){
   $('#unlockCard').innerHTML=`
     <h2>${p.ja}</h2>
     <div class="prov">${p.romaji} ・ ${p.en}</div>
-    <div class="fuji-note">${t('fuji_where')} — ${p.suit?p.suit.fuji:''}</div>
+    <div class="fuji-note">${t('fuji_where')} — ${p.suit?CJ(p.suit.fuji,p.suit.fuji_ja):''}</div>
     <img src="game-assets/originals/${p.slug}.jpg" alt="${p.romaji}">
-    ${p.desc?`<div class="desc">${p.desc}</div>`:''}
+    ${CJ(p.desc,p.desc_ja)?`<div class="desc">${CJ(p.desc,p.desc_ja)}</div>`:''}
     <div class="prov">${p.viewpoint}<br>The Metropolitan Museum of Art ・ Open Access (CC0)</div>
     <div class="row">
       <button onclick="openViewer('${p.slug}')">${t('highres')}</button>
@@ -767,6 +781,7 @@ function playIntro(){
   const el=$('#intro'), img=$('#introImg'), sc=$('#introScroll');
   el.style.transition=''; el.style.opacity=''; el.classList.add('on');
   const run=()=>{
+    sc.innerHTML=CREDITS[LANG]||CREDITS.zh;
     $('#introTitle').classList.remove('show'); $('#introVeil').classList.remove('show');
     img.style.transition='none'; introApply(introFit('wide'));
     sc.style.transition='none'; sc.style.transform='translateX(-50%) translateY(100vh)';
