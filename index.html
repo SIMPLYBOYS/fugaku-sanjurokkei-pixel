@@ -34,7 +34,7 @@
   #mapinner .scrim{position:absolute;inset:0;z-index:2;pointer-events:none;
     background:radial-gradient(135% 120% at 55% 48%, #0a112000 32%, #0a1120e2 100%),
                linear-gradient(#0a112077,#0a112000 20%,#0a112000 80%,#0a1120aa)}
-  #fuji{position:absolute;transform:translate(-50%,-62%);z-index:3;pointer-events:none;filter:drop-shadow(0 3px 12px #000c)}
+  #fuji{position:absolute;transform:translate(-50%,-64%);z-index:3;pointer-events:none;filter:drop-shadow(0 4px 14px #000d) drop-shadow(0 0 10px #f7f2e6aa)}
   #fujiLabel{position:absolute;transform:translate(-50%,0);z-index:3;pointer-events:none;
     color:#fbeec8;font-size:12px;letter-spacing:.34em;text-shadow:0 1px 5px #000,0 0 12px #000}
   .node{position:absolute;transform:translate(-50%,-50%);z-index:4;cursor:pointer;
@@ -200,12 +200,20 @@ function computePositions(){
       p._y=c[1]+rr*Math.sin(a)*1.42;
     });
   });
+  // 把落在富士圖形上的節點推到山腳周圍(排除橢圓),避免遮住富士
+  const FC=[FUJI_POS[0], FUJI_POS[1]-0.05], RX=0.062, RY=0.09;
+  PRINTS.forEach(p=>{
+    const dx=(p._x-FC[0])/RX, dy=(p._y-FC[1])/RY, d=Math.hypot(dx,dy);
+    if(d===0){ p._y=FC[1]+RY; }
+    else if(d<1){ p._x=FC[0]+dx/d*RX; p._y=FC[1]+dy/d*RY; }
+  });
 }
 
-const FUJI_SVG=`<svg id="fuji" width="66" height="50" viewBox="0 0 150 112">
-  <polygon points="75,6 128,104 22,104" fill="#3a4f6b"/>
-  <polygon points="75,6 100,52 88,46 79,58 70,44 60,56 50,48" fill="#f7f2e6"/>
-  <polygon points="75,6 128,104 108,104 75,40 42,104 22,104" fill="#1a2740" opacity=".3"/>
+const FUJI_SVG=`<svg id="fuji" width="116" height="75" viewBox="0 0 200 130">
+  <defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#4a6180"/><stop offset="1" stop-color="#2b3f5a"/></linearGradient></defs>
+  <path d="M8,124 C46,88 66,58 88,26 L100,29 L112,26 C134,58 154,88 192,124 Z" fill="url(#fg)"/>
+  <path d="M88,26 L100,29 L112,26 C121,43 129,57 136,70 C131,66 129,76 123,69 C118,79 114,67 109,73 C105,81 101,67 98,75 C94,67 90,81 86,73 C82,67 78,79 73,70 C68,76 66,66 64,70 C71,57 79,43 88,26 Z" fill="#f7f2e6"/>
 </svg>`;
 
 function drawWorld(){
