@@ -6,6 +6,14 @@
 
 **線上直接玩 → [simplyboys.github.io/fugaku-sanjurokkei-pixel](https://simplyboys.github.io/fugaku-sanjurokkei-pixel/)**
 
+![富士為心的地理 overworld — 石川流宣古地圖為底，46 視點按真實地理落點](docs/screenshots/overworld.jpg)
+
+> 石川流宣《日本海山潮陸図》(1691) 古地圖為底，富士居中，46 個視點按真實地理落在中東部本州上。
+
+![在浮世繪像素場景中找細節](docs/screenshots/scene.jpg)
+
+> 每幅化為 16 色像素的浮世繪，找出三個藏在畫中的細節，集齊便解鎖美術館高清原圖。
+
 沒有框架、沒有建置步驟、沒有伺服器邏輯。一個 `index.html`、公有領域畫作、你的瀏覽器。
 
 ## 快速開始
