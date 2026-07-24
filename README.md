@@ -4,6 +4,8 @@
 
 [Tōkaidō Pixel](https://github.com/SIMPLYBOYS/tokaido-pixel) 系列的富士篇。同一套公式：一張古地圖當 overworld，每個視點進到像素化的浮世繪裡找三個藏在畫中的細節，找齊解鎖美術館高清原圖。
 
+**線上直接玩 → [simplyboys.github.io/fugaku-sanjurokkei-pixel](https://simplyboys.github.io/fugaku-sanjurokkei-pixel/)**
+
 沒有框架、沒有建置步驟、沒有伺服器邏輯。一個 `index.html`、公有領域畫作、你的瀏覽器。
 
 ## 快速開始
