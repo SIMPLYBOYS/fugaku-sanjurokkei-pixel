@@ -92,6 +92,28 @@
     box-shadow:0 6px 24px #000c;background-repeat:no-repeat;background-color:#0e1626;
     image-rendering:auto;pointer-events:none;display:none;z-index:5}
   #loupe.on{display:block}
+  /* ---------- intro / opening ---------- */
+  #intro{position:fixed;inset:0;z-index:60;background:#070c16;overflow:hidden;display:none}
+  #intro.on{display:block}
+  #introMap{position:absolute;inset:0;overflow:hidden}
+  #introImg{position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform}
+  #introVeil{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.6s;
+    background:radial-gradient(130% 120% at 50% 40%, #070c1655, #070c16dd)}
+  #introVeil.show{opacity:1}
+  #introText{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2}
+  #introScroll{position:absolute;left:50%;top:0;transform:translateX(-50%) translateY(100vh);
+    width:min(90vw,660px);text-align:center;color:var(--foam);
+    font-size:clamp(15px,2.3vw,20px);line-height:2;letter-spacing:.1em}
+  #introScroll h2{color:var(--gold);font-size:clamp(24px,4.4vw,38px);letter-spacing:.22em;margin:.5em 0 .1em}
+  #introScroll .sub{color:var(--dim);font-size:12px;letter-spacing:.28em;margin-bottom:1.6em}
+  #introScroll p{margin:1em 0}
+  #introScroll b{color:var(--foam)}
+  #introScroll .sep{color:var(--blue2);margin:1.8em 0;font-size:14px;letter-spacing:.6em}
+  #introTitle{position:absolute;top:0;left:0;right:0;padding-top:12vh;text-align:center;z-index:2;
+    color:var(--foam);font-size:clamp(24px,5vw,46px);letter-spacing:.32em;
+    opacity:0;transition:opacity 1.4s;text-shadow:0 2px 24px #000,0 0 40px #000}
+  #introTitle.show{opacity:1}
+  #introCtrl{position:absolute;bottom:22px;right:22px;z-index:3;display:flex;gap:10px}
   /* ---------- high-res viewer ---------- */
   #viewer{position:fixed;inset:0;z-index:40;background:#050a14f7;display:none;overflow:hidden;touch-action:none;cursor:grab}
   #viewer.on{display:block}
@@ -154,8 +176,36 @@
     <button id="emakiBtn">絵巻 EMAKI</button>
     <button id="certBtn">証書 CERT</button>
     <button id="bgmBtn" title="BGM">🔊</button>
+    <button id="introBtn" title="開場をもう一度">☰ 開場</button>
   </div>
   <div id="maparea"></div>
+</div>
+
+<div id="intro">
+  <div id="introMap"><img id="introImg" alt="日本図" src="game-assets/intro-japan.jpg"></div>
+  <div id="introVeil"></div>
+  <div id="introText"><div id="introScroll">
+    <h2>冨嶽三十六景 ピクセル</h2>
+    <div class="sub">HOKUSAI ・ THIRTY-SIX VIEWS OF MOUNT FUJI</div>
+    <h2>葛飾北斎</h2>
+    <div class="sub">KATSUSHIKA HOKUSAI ・ 1760–1849</div>
+    <p>江戶浮世繪的巨匠，自號「画狂老人」。<br>一生改名逾三十、遷居逾九十，<br>作畫至九旬，臨終猶嘆<br>「再予我五年，必成真正的畫工」。</p>
+    <div class="sep">✦</div>
+    <p><b>《冨嶽三十六景》</b><br>約 1831–1834 年刊行</p>
+    <p>他以當時舶來的「ベロ藍」——普魯士藍——<br>描繪富士：表富士三十六景，<br>再追加裏富士十景，實為四十六幅。</p>
+    <p>富士在每一幅畫裡都存在，<br>有時巍然當空，<br>有時只是浪谷之後、桶圈之中<br>一座小小的峰。</p>
+    <p>這套版畫東渡歐洲，啟發了莫內、梵谷<br>與整個「日本主義」風潮，<br>《神奈川沖浪裏》更成為<br>世界最著名的畫作之一。</p>
+    <div class="sep">✦</div>
+    <p><b>本作玩法</b><br>在每幅像素化的浮世繪中，<br>尋找三個藏在畫裡的細節，<br>集齊便解鎖美術館典藏的高清原圖。</p>
+    <p class="sub" style="line-height:1.9">畫作：The Metropolitan Museum of Art（CC0）<br>地圖：石川流宣《日本海山潮陸図》1691・NDL</p>
+    <div class="sep">✦</div>
+    <p style="color:var(--gold)">さあ、富士を探す旅へ。<br>出發，尋富士之旅。</p>
+  </div></div>
+  <div id="introTitle">冨嶽三十六景 ピクセル</div>
+  <div id="introCtrl">
+    <button id="introReplay">↺ 最初から</button>
+    <button id="introSkip">スキップ ▶</button>
+  </div>
 </div>
 
 <div id="scene">
@@ -640,13 +690,58 @@ function showCert(){
 
 addEventListener('resize',()=>{if($('#scene').classList.contains('on'))renderFinds()});
 addEventListener('keydown',e=>{if(e.key==='Escape'){
+  if($('#intro').classList.contains('on')){endIntro();return;}
   if($('#viewer').classList.contains('on')){$('#viewer').classList.remove('on');return;}
   $('#unlock').classList.remove('on');$('#zukan').classList.remove('on');closeEmaki();$('#cert').classList.remove('on');
   if($('#scene').classList.contains('on')){$('#scene').classList.remove('on');drawWorld()}}});
 
+// ---------- intro / 開場 (全日本 zoom-in → 捲軸字幕 → 進入遊戲) ----------
+const INTRO_LS='fugaku.intro.v1';
+const EAST={x:0.5,y:0.12,w:0.5,h:0.6};   // overworld 東部裁切在全日本圖中的位置(zoom 終點)
+let introTimers=[];
+function introFit(mode){
+  const img=$('#introImg'), vw=innerWidth, vh=innerHeight, nw=img.naturalWidth, nh=img.naturalHeight;
+  if(!nw) return null;
+  if(mode==='wide'){ const s=Math.min(vw/nw,vh/nh)*0.98; return {s,tx:(vw-nw*s)/2,ty:(vh-nh*s)/2}; }
+  const rw=EAST.w*nw, rh=EAST.h*nh, s=Math.max(vw/rw,vh/rh);
+  return {s, tx:-EAST.x*nw*s+(vw-rw*s)/2, ty:-EAST.y*nh*s+(vh-rh*s)/2};
+}
+function introApply(t){ if(t) $('#introImg').style.transform=`translate(${t.tx}px,${t.ty}px) scale(${t.s})`; }
+function clearIntro(){ introTimers.forEach(clearTimeout); introTimers=[]; }
+function endIntro(){
+  clearIntro(); const el=$('#intro');
+  el.style.transition='opacity .8s'; el.style.opacity='0';
+  introTimers.push(setTimeout(()=>{ el.classList.remove('on'); el.style.opacity=''; el.style.transition=''; },800));
+  try{ localStorage.setItem(INTRO_LS,'1'); }catch(e){}
+}
+function playIntro(){
+  clearIntro();
+  const el=$('#intro'), img=$('#introImg'), sc=$('#introScroll');
+  el.style.transition=''; el.style.opacity=''; el.classList.add('on');
+  const run=()=>{
+    $('#introTitle').classList.remove('show'); $('#introVeil').classList.remove('show');
+    img.style.transition='none'; introApply(introFit('wide'));
+    sc.style.transition='none'; sc.style.transform='translateX(-50%) translateY(100vh)';
+    void img.offsetWidth;                                   // reflow
+    $('#introTitle').classList.add('show');
+    img.style.transition='transform 6.5s cubic-bezier(.45,0,.15,1)'; introApply(introFit('east'));
+    introTimers.push(setTimeout(()=>{ $('#introTitle').classList.remove('show'); $('#introVeil').classList.add('show'); },3600));
+    introTimers.push(setTimeout(()=>{
+      sc.style.transition='transform 27s linear';
+      sc.style.transform='translateX(-50%) translateY(-'+sc.offsetHeight+'px)';
+    },4200));
+    introTimers.push(setTimeout(endIntro,31800));           // 4.2s zoom-in + 27s 捲軸 + margin;計時器代替 transitionend 避免重播殘留
+  };
+  if(img.complete && img.naturalWidth) run(); else img.onload=run;
+}
+$('#introSkip').onclick=endIntro;
+$('#introReplay').onclick=playIntro;
+$('#introBtn').onclick=playIntro;
+
 // ---------- boot ----------
 fetch('data/prints.json').then(r=>r.json()).then(d=>{
   DATA=d; PRINTS=d.prints; drawWorld();
+  try{ if(!localStorage.getItem(INTRO_LS)) playIntro(); }catch(e){}
 }).catch(e=>{
   document.body.innerHTML='<p style="padding:40px;line-height:2">讀不到 data/prints.json。<br>請用靜態伺服器開啟：<code>python3 -m http.server</code> 然後開 http://localhost:8000</p>';
 });
