@@ -120,8 +120,12 @@
   #viewer.grabbing{cursor:grabbing}
   #vimg{position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform;
     user-select:none;-webkit-user-drag:none;max-width:none}
-  #vcap{position:absolute;top:16px;left:0;right:0;text-align:center;color:var(--foam);z-index:2;
-    font-size:14px;letter-spacing:.16em;text-shadow:0 1px 6px #000;pointer-events:none}
+  #vcap{position:absolute;top:0;left:0;right:0;z-index:2;padding:14px 20px 26px;text-align:center;
+    color:var(--foam);pointer-events:none;background:linear-gradient(#050a14e6,#050a1400)}
+  #vcap .vtitle{font-size:16px;letter-spacing:.16em;text-shadow:0 1px 6px #000}
+  #vcap .vdesc{max-width:760px;margin:9px auto 0;font-size:13px;line-height:1.95;letter-spacing:.03em;
+    color:#ece5d6;text-align:left;text-indent:2em;text-shadow:0 1px 4px #000}
+  #vcap .vmeta{margin-top:7px;font-size:11px;letter-spacing:.2em;color:var(--dim)}
   #vctrl{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:2;
     display:flex;gap:8px;background:#0009;padding:8px 10px;border-radius:4px}
   #vctrl button{min-width:40px}
@@ -136,6 +140,9 @@
   .card .prov{color:var(--dim);font-size:12px;letter-spacing:.1em;line-height:1.7;margin:8px auto;max-width:640px}
   .card .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
   .fuji-note{color:var(--gold);font-size:13px;letter-spacing:.1em;margin-top:6px}
+  .card .desc{color:#ece5d6;font-size:14px;line-height:2;letter-spacing:.04em;max-width:640px;
+    margin:14px auto 4px;text-align:left;text-indent:2em;
+    border-top:1px solid #ffffff14;border-bottom:1px solid #ffffff14;padding:12px 4px}
   /* zukan */
   #zukan .card{max-width:1000px}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:16px}
@@ -429,7 +436,7 @@ function vzoomAt(factor,cx,cy){
 function vzoom(f){ vzoomAt(f, innerWidth/2, innerHeight/2); }
 function openViewer(slug){
   const img=$('#vimg'), p=byslug(slug);
-  $('#vcap').textContent=p?`${p.ja} ・ ${p.romaji}　（美術館高解像度スキャン）`:'';
+  $('#vcap').innerHTML=p?`<div class="vtitle">${p.ja} ・ ${p.romaji}</div>${p.desc?`<div class="vdesc">${p.desc}</div>`:''}<div class="vmeta">美術館高解像度スキャン ・ The Met (CC0)</div>`:'';
   img.onerror=()=>{ if(!img.src.includes('/originals/')) img.src='game-assets/originals/'+slug+'.jpg'; };
   img.onload=()=>{ V.nw=img.naturalWidth; V.nh=img.naturalHeight; vreset(); };
   img.src='game-assets/large/'+slug+'.jpg';
@@ -475,6 +482,7 @@ function showUnlock(p){
     <div class="prov">${p.romaji} ・ ${p.en}</div>
     <div class="fuji-note">富士はどこに — ${p.suit?p.suit.fuji:''}</div>
     <img src="game-assets/originals/${p.slug}.jpg" alt="${p.romaji}">
+    ${p.desc?`<div class="desc">${p.desc}</div>`:''}
     <div class="prov">${p.viewpoint}<br>The Metropolitan Museum of Art ・ Open Access (CC0)</div>
     <div class="row">
       <button onclick="openViewer('${p.slug}')">🔍 高解像度</button>
