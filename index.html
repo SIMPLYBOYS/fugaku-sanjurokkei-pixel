@@ -386,11 +386,35 @@ function openViewer(slug){
   $('#viewer').classList.add('on');
 }
 (function(){
-  const el=$('#viewer'); let drag=false,px=0,py=0;
+  const el=$('#viewer'), pts=new Map();
+  let pinchD=0, pinchM=null, panP=null;
+  const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y), mid=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
   el.addEventListener('wheel',e=>{e.preventDefault(); vzoomAt(e.deltaY<0?1.18:1/1.18, e.clientX, e.clientY);},{passive:false});
-  el.addEventListener('pointerdown',e=>{ if(e.target.closest('#vctrl'))return; drag=true;px=e.clientX;py=e.clientY;el.classList.add('grabbing');el.setPointerCapture(e.pointerId); });
-  el.addEventListener('pointermove',e=>{ if(!drag)return; V.tx+=e.clientX-px;V.ty+=e.clientY-py;px=e.clientX;py=e.clientY; vapply(); });
-  el.addEventListener('pointerup',()=>{ drag=false; el.classList.remove('grabbing'); });
+  el.addEventListener('pointerdown',e=>{
+    if(e.target.closest('#vctrl')) return;
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pts.size===1){ panP={x:e.clientX,y:e.clientY}; el.classList.add('grabbing'); }
+    else if(pts.size===2){ const v=[...pts.values()]; pinchD=dist(v[0],v[1]); pinchM=mid(v[0],v[1]); panP=null; }
+  });
+  el.addEventListener('pointermove',e=>{
+    if(!pts.has(e.pointerId)) return;
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pts.size>=2){                                   // 雙指:縮放到中點 + 同步平移
+      const v=[...pts.values()], nd=dist(v[0],v[1]), nm=mid(v[0],v[1]);
+      if(pinchD>0){ vzoomAt(nd/pinchD, nm.x, nm.y); V.tx+=nm.x-pinchM.x; V.ty+=nm.y-pinchM.y; vapply(); }
+      pinchD=nd; pinchM=nm;
+    } else if(panP){                                   // 單指:平移
+      V.tx+=e.clientX-panP.x; V.ty+=e.clientY-panP.y; panP={x:e.clientX,y:e.clientY}; vapply();
+    }
+  });
+  function end(e){
+    pts.delete(e.pointerId);
+    if(pts.size<2) pinchD=0;
+    if(pts.size===1){ const p=[...pts.values()][0]; panP={x:p.x,y:p.y}; }   // 2→1 指:接回平移
+    else if(pts.size===0){ panP=null; el.classList.remove('grabbing'); }
+  }
+  el.addEventListener('pointerup',end);
+  el.addEventListener('pointercancel',end);
   el.addEventListener('dblclick',e=>{ vzoomAt(V.scale>V.fit*1.5?V.fit/V.scale:2.6, e.clientX, e.clientY); });
 })();
 
