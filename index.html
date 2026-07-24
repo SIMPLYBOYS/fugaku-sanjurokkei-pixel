@@ -86,7 +86,7 @@
     box-shadow:0 0 14px #e3b23caa,inset 0 0 14px #e3b23c55;animation:hintpulse 1.4s ease-out forwards}
   @keyframes hintpulse{0%{opacity:0;transform:scale(1.5)}22%{opacity:1;transform:scale(1)}78%{opacity:1}100%{opacity:0;transform:scale(1)}}
   #sBack{position:absolute;top:14px;right:16px;z-index:3}
-  .scene-ctrl{position:absolute;top:14px;left:16px;z-index:3}
+  .scene-ctrl{position:absolute;top:52px;right:16px;z-index:3}
   button.on-toggle{background:var(--gold);color:var(--navy2);border-color:var(--gold)}
   #loupe{position:absolute;width:172px;height:172px;border-radius:50%;border:3px solid var(--gold);
     box-shadow:0 6px 24px #000c;background-repeat:no-repeat;background-color:#0e1626;
@@ -179,11 +179,12 @@
   </header>
   <div id="hud">
     <div><b id="cnt">0</b> / <span id="tot">0</span> 完成</div>
-    <button id="zBtn">図鑑 ZUKAN</button>
-    <button id="emakiBtn">絵巻 EMAKI</button>
-    <button id="certBtn">証書 CERT</button>
+    <button id="zBtn" data-i18n="zukan">圖鑑</button>
+    <button id="emakiBtn" data-i18n="emaki">繪卷</button>
+    <button id="certBtn" data-i18n="cert">證書</button>
     <button id="bgmBtn" title="BGM">🔊</button>
-    <button id="introBtn" title="開場をもう一度">☰ 開場</button>
+    <button id="introBtn" data-i18n="intro_btn">☰ 開場</button>
+    <button id="langBtn">日本語</button>
   </div>
   <div id="maparea"></div>
 </div>
@@ -210,8 +211,8 @@
   </div></div>
   <div id="introTitle">冨嶽三十六景 ピクセル</div>
   <div id="introCtrl">
-    <button id="introReplay">↺ 最初から</button>
-    <button id="introSkip">スキップ ▶</button>
+    <button id="introReplay" data-i18n="replay">↺ 重看</button>
+    <button id="introSkip" data-i18n="skip">跳過 ▶</button>
   </div>
 </div>
 
@@ -219,8 +220,8 @@
   <div id="sTop">
     <div id="sTitle"></div>
   </div>
-  <button id="sBack">← 地図へ戻る</button>
-  <button id="loupeBtn" class="scene-ctrl">🔍 拡大鏡</button>
+  <button id="sBack" data-i18n="back">← 返回地圖</button>
+  <button id="loupeBtn" class="scene-ctrl" data-i18n="loupe">🔍 放大鏡</button>
   <div id="stage">
     <div id="frame">
       <img id="sImg" alt="">
@@ -237,8 +238,8 @@
   <div id="vctrl">
     <button onclick="vzoom(1/1.4)">−</button>
     <button onclick="vzoom(1.4)">＋</button>
-    <button onclick="vreset()">全体</button>
-    <button onclick="document.getElementById('viewer').classList.remove('on')">閉じる</button>
+    <button onclick="vreset()" data-i18n="vfull">全圖</button>
+    <button onclick="document.getElementById('viewer').classList.remove('on')" data-i18n="close">關閉</button>
   </div>
 </div>
 <div class="veil" id="unlock"><div class="card" id="unlockCard"></div></div>
@@ -250,6 +251,43 @@
 const $=s=>document.querySelector(s);
 const LS='fugaku.progress.v1';
 let PRINTS=[], DATA=null, prog=load(), cur=null;
+
+// ---------- i18n（繁體中文 / 日本語）----------
+let LANG=(localStorage.getItem('fugaku.lang')||'zh');
+const I18N={
+  zukan:{zh:'圖鑑',ja:'図鑑'}, emaki:{zh:'繪卷',ja:'絵巻'}, cert:{zh:'證書',ja:'証書'},
+  intro_btn:{zh:'☰ 開場',ja:'☰ 開場'}, intro_title:{zh:'重看開場',ja:'開場をもう一度'},
+  back:{zh:'← 返回地圖',ja:'← 地図へ戻る'}, loupe:{zh:'🔍 放大鏡',ja:'🔍 拡大鏡'},
+  hint:{zh:'🔍 提示',ja:'🔍 ヒント'}, find_done:{zh:'全部找到 ✓',ja:'すべて見つけた ✓'},
+  fuji_where:{zh:'富士在哪',ja:'富士はどこに'}, highres:{zh:'🔍 高解析',ja:'🔍 高解像度'},
+  highres_t:{zh:'以高解析檢視',ja:'高解像度で見る'}, collect:{zh:'收入圖鑑',ja:'図鑑に収める'},
+  next_view:{zh:'下一景 →',ja:'次の眺望 →'}, close:{zh:'關閉',ja:'閉じる'},
+  vfull:{zh:'全圖',ja:'全体'},
+  vmeta:{zh:'美術館高解析掃描 ・ The Met (CC0)',ja:'美術館高解像度スキャン ・ The Met (CC0)'},
+  emaki_auto:{zh:'▶ 自動展開',ja:'▶ 自動でひらく'}, emaki_stop:{zh:'⏸ 停止',ja:'⏸ 停止'},
+  emaki_hint:{zh:'由右至左 ・ 拖曳／滾動捲回',ja:'右から左へ ・ ドラッグ／スクロールで巻き戻し'},
+  emaki_empty:{zh:'尚未收藏任何一景。<br>解鎖眺望後，這卷繪卷便會展開。',ja:'まだ一景も収めていません。<br>眺望を解鎖すると、この絵巻がひらきます。'},
+  cert_h2:{zh:'完破之證',ja:'完破の証'}, cert_save:{zh:'儲存 PNG',ja:'PNG を保存'},
+  cert_go:{zh:'― 號 ―',ja:'― 号 ―'}, skip:{zh:'跳過 ▶',ja:'スキップ ▶'}, replay:{zh:'↺ 重看',ja:'↺ 最初から'},
+};
+const FIND_N={zh:n=>`在畫中尋找這 <b>${n}</b> 處`, ja:n=>`画中の この<b>${n}</b>つを探す`};
+const ZUKAN_CT={zh:(a,b)=>`解鎖 ${a} / ${b}`, ja:(a,b)=>`収蔵 ${a} / ${b}`};
+function t(k){ const e=I18N[k]; return e?(e[LANG]??e.zh):k; }
+let lastUnlock=null, lastViewerSlug=null;
+function setVcap(p){ $('#vcap').innerHTML=p?`<div class="vtitle">${p.ja} ・ ${p.romaji}</div>${p.desc?`<div class="vdesc">${p.desc}</div>`:''}<div class="vmeta">${t('vmeta')}</div>`:''; }
+function setLang(l){ LANG=l; try{localStorage.setItem('fugaku.lang',l);}catch(e){} applyLang(); }
+function applyLang(){
+  document.documentElement.lang = LANG==='zh'?'zh-Hant':'ja';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=t(el.dataset.i18n); });
+  const ib=$('#introBtn'); if(ib) ib.title=t('intro_title');
+  const lb=$('#langBtn'); if(lb) lb.textContent=(LANG==='zh'?'日本語':'中文');
+  if($('#scene').classList.contains('on')) renderFinds();
+  if($('#unlock').classList.contains('on') && lastUnlock) showUnlock(lastUnlock);
+  if($('#zukan').classList.contains('on')) showZukan();
+  if($('#emaki').classList.contains('on')) showEmaki();
+  if($('#cert').classList.contains('on')) showCert();
+  if($('#viewer').classList.contains('on') && lastViewerSlug) setVcap(byslug(lastViewerSlug));
+}
 
 function load(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch{return{}}}
 function save(){localStorage.setItem(LS,JSON.stringify(prog))}
@@ -352,8 +390,8 @@ function renderFinds(){
   const chips=cur.hits.map((h,i)=>
     `<div class="find ${got.includes(i)?'got':''}"><span class="dot">${got.includes(i)?'✓':''}</span><span class="lbl">${h.label}</span></div>`).join('');
   $('#finds').innerHTML=
-    `<div id="findPrompt">${left>0?`画中の この<b>${left}</b>つを探す`:'すべて見つけた ✓'}</div>`+
-    chips+(left>0?`<button id="hintBtn" class="hint">🔍 ヒント</button>`:'');
+    `<div id="findPrompt">${left>0?(FIND_N[LANG]||FIND_N.zh)(left):t('find_done')}</div>`+
+    chips+(left>0?`<button id="hintBtn" class="hint">${t('hint')}</button>`:'');
   const hb=$('#hintBtn'); if(hb) hb.onclick=showHint;
   got.forEach(i=>drawMark(i));
 }
@@ -435,8 +473,9 @@ function vzoomAt(factor,cx,cy){
 }
 function vzoom(f){ vzoomAt(f, innerWidth/2, innerHeight/2); }
 function openViewer(slug){
+  lastViewerSlug=slug;
   const img=$('#vimg'), p=byslug(slug);
-  $('#vcap').innerHTML=p?`<div class="vtitle">${p.ja} ・ ${p.romaji}</div>${p.desc?`<div class="vdesc">${p.desc}</div>`:''}<div class="vmeta">美術館高解像度スキャン ・ The Met (CC0)</div>`:'';
+  setVcap(p);
   img.onerror=()=>{ if(!img.src.includes('/originals/')) img.src='game-assets/originals/'+slug+'.jpg'; };
   img.onload=()=>{ V.nw=img.naturalWidth; V.nh=img.naturalHeight; vreset(); };
   img.src='game-assets/large/'+slug+'.jpg';
@@ -477,17 +516,18 @@ function openViewer(slug){
 
 // ---------- unlock ----------
 function showUnlock(p){
+  lastUnlock=p;
   $('#unlockCard').innerHTML=`
     <h2>${p.ja}</h2>
     <div class="prov">${p.romaji} ・ ${p.en}</div>
-    <div class="fuji-note">富士はどこに — ${p.suit?p.suit.fuji:''}</div>
+    <div class="fuji-note">${t('fuji_where')} — ${p.suit?p.suit.fuji:''}</div>
     <img src="game-assets/originals/${p.slug}.jpg" alt="${p.romaji}">
     ${p.desc?`<div class="desc">${p.desc}</div>`:''}
     <div class="prov">${p.viewpoint}<br>The Metropolitan Museum of Art ・ Open Access (CC0)</div>
     <div class="row">
-      <button onclick="openViewer('${p.slug}')">🔍 高解像度</button>
-      <button onclick="closeVeil()">図鑑に収める</button>
-      <button onclick="nextPrint()">次の眺望 →</button>
+      <button onclick="openViewer('${p.slug}')">${t('highres')}</button>
+      <button onclick="closeVeil()">${t('collect')}</button>
+      <button onclick="nextPrint()">${t('next_view')}</button>
     </div>`;
   $('#unlock').classList.add('on');
 }
@@ -504,11 +544,11 @@ $('#zBtn').onclick=showZukan;
 function showZukan(){
   const cells=PRINTS.map(p=>{
     const dn=done(p.slug), playable=p.hits&&p.hits.length;
-    return `<div class="cell ${dn?'':'locked'}" ${dn?`onclick="openViewer('${p.slug}')" style="cursor:pointer" title="高解像度で見る"`:''}>
+    return `<div class="cell ${dn?'':'locked'}" ${dn?`onclick="openViewer('${p.slug}')" style="cursor:pointer" title="${t('highres_t')}"`:''}>
       ${dn?`<img src="game-assets/originals/${p.slug}.jpg">`:playable?`<img src="game-assets/scenes/${p.slug}.png">`:`<div style="aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;color:var(--dim)">未</div>`}
       <div class="no">${String(p.n).padStart(2,'0')} ${p.group}</div>${p.ja}</div>`}).join('');
-  $('#zukanCard').innerHTML=`<h2>図鑑</h2><div class="prov">解鎖 ${PRINTS.filter(p=>done(p.slug)).length} / ${PRINTS.length}　（本切片可玩 ${PRINTS.filter(p=>p.hits).length} 幅）</div>
-    <div class="grid">${cells}</div><div class="row"><button onclick="document.getElementById('zukan').classList.remove('on')">閉じる</button></div>`;
+  $('#zukanCard').innerHTML=`<h2>${t('zukan')}</h2><div class="prov">${(ZUKAN_CT[LANG]||ZUKAN_CT.zh)(PRINTS.filter(p=>done(p.slug)).length, PRINTS.length)}</div>
+    <div class="grid">${cells}</div><div class="row"><button onclick="document.getElementById('zukan').classList.remove('on')">${t('close')}</button></div>`;
   $('#zukan').classList.add('on');
 }
 
@@ -586,14 +626,14 @@ function showEmaki(){
   const card=$('#emakiCard'); emakiTouched=false; emakiPlaying=false;
   if(emakiRAF){cancelAnimationFrame(emakiRAF);emakiRAF=null;}
   if(!unlocked.length){
-    card.innerHTML=`<div class="emaki-empty">まだ一景も収めていません。<br>眺望を解鎖すると、この絵巻がひらきます。</div>
-      <div class="emaki-bar"><button onclick="closeEmaki()">閉じる</button></div>`;
+    card.innerHTML=`<div class="emaki-empty">${t('emaki_empty')}</div>
+      <div class="emaki-bar"><button onclick="closeEmaki()">${t('close')}</button></div>`;
   }else{
     const strip=unlocked.map(p=>`<figure class="emaki-pane"><img src="game-assets/originals/${p.slug}.jpg" alt="${p.romaji}" onload="pinEmaki()"><figcaption>${String(p.n).padStart(2,'0')} ${p.ja}</figcaption></figure>`).join('');
     card.innerHTML=`<div id="emakiScroll">${strip}</div>
-      <div class="emaki-bar"><button id="emakiPlay">▶ 自動でひらく</button>
-      <span class="emaki-hint">右から左へ ・ ドラッグ／スクロールで巻き戻し</span>
-      <button onclick="closeEmaki()">閉じる</button></div>`;
+      <div class="emaki-bar"><button id="emakiPlay">${t('emaki_auto')}</button>
+      <span class="emaki-hint">${t('emaki_hint')}</span>
+      <button onclick="closeEmaki()">${t('close')}</button></div>`;
     $('#emakiPlay').onclick=toggleEmakiPlay;
     setupEmakiDrag();
     requestAnimationFrame(pinEmaki);
@@ -611,14 +651,14 @@ function setupEmakiDrag(){
 function toggleEmakiPlay(){
   const sc=$('#emakiScroll'); if(!sc) return;
   emakiPlaying=!emakiPlaying; emakiTouched=true;
-  $('#emakiPlay').textContent=emakiPlaying?'⏸ 停止':'▶ 自動でひらく';
+  $('#emakiPlay').textContent=emakiPlaying?t('emaki_stop'):t('emaki_auto');
   if(emakiPlaying){emakiPos=sc.scrollLeft; emakiTick();}
   else if(emakiRAF){cancelAnimationFrame(emakiRAF);emakiRAF=null;}
 }
 function emakiTick(){
   const sc=$('#emakiScroll'); if(!sc||!emakiPlaying){emakiPlaying=false;return;}
   emakiPos-=0.7; sc.scrollLeft=emakiPos;                 // unroll right → left
-  if(emakiPos<=0){sc.scrollLeft=0;emakiPlaying=false;emakiRAF=null;$('#emakiPlay').textContent='▶ 自動でひらく';return;}
+  if(emakiPos<=0){sc.scrollLeft=0;emakiPlaying=false;emakiRAF=null;$('#emakiPlay').textContent=t('emaki_auto');return;}
   emakiRAF=requestAnimationFrame(emakiTick);
 }
 function closeEmaki(){
@@ -675,7 +715,7 @@ function drawCertificate(cv){
   ctx.fillText('冨嶽三十六景',W/2,168);
   ctx.fillStyle='#e3b23c'; ctx.font='700 92px "Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
   ctx.fillText('踏破之証',W/2,288);
-  ctx.fillStyle='#6a7793'; ctx.font='400 22px serif'; ctx.fillText('― 号 ―',W/2,376);
+  ctx.fillStyle='#6a7793'; ctx.font='400 22px serif'; ctx.fillText(t('cert_go'),W/2,376);
   ctx.fillStyle='#e3b23c'; ctx.font='600 56px "Hiragino Mincho ProN",serif'; ctx.fillText(rank.ja,W/2,446);
   ctx.fillStyle='#6a7793'; ctx.font='400 18px serif'; ctx.fillText(rank.en,W/2,482);
   ctx.fillStyle='#f2ecdd'; ctx.font='400 30px "Hiragino Mincho ProN",serif';
@@ -686,10 +726,10 @@ function drawCertificate(cv){
 }
 function showCert(){
   const card=$('#certCard');
-  card.innerHTML=`<h2>完破の証</h2>
+  card.innerHTML=`<h2>${t('cert_h2')}</h2>
     <canvas id="certCanvas" width="1200" height="850"></canvas>
-    <div class="row"><button id="certSave">PNG を保存</button>
-    <button id="certClose">閉じる</button></div>`;
+    <div class="row"><button id="certSave">${t('cert_save')}</button>
+    <button id="certClose">${t('close')}</button></div>`;
   drawCertificate($('#certCanvas'));
   $('#certSave').onclick=()=>{const a=document.createElement('a');a.download='fugaku-toha-no-akashi.png';a.href=$('#certCanvas').toDataURL('image/png');a.click();};
   $('#certClose').onclick=()=>$('#cert').classList.remove('on');
@@ -746,9 +786,13 @@ $('#introSkip').onclick=endIntro;
 $('#introReplay').onclick=playIntro;
 $('#introBtn').onclick=playIntro;
 
+$('#langBtn').onclick=()=>setLang(LANG==='zh'?'ja':'zh');
+
 // ---------- boot ----------
+applyLang();
 fetch('data/prints.json').then(r=>r.json()).then(d=>{
   DATA=d; PRINTS=d.prints; drawWorld();
+  applyLang();
   try{ if(!localStorage.getItem(INTRO_LS)) playIntro(); }catch(e){}
 }).catch(e=>{
   document.body.innerHTML='<p style="padding:40px;line-height:2">讀不到 data/prints.json。<br>請用靜態伺服器開啟：<code>python3 -m http.server</code> 然後開 http://localhost:8000</p>';
