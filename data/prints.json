@@ -1,0 +1,2504 @@
+{
+  "series": "冨嶽三十六景",
+  "series_romaji": "Fugaku Sanjūrokkei",
+  "series_en": "Thirty-Six Views of Mount Fuji",
+  "artist": "葛飾北斎 Katsushika Hokusai",
+  "count": 46,
+  "note": "36 表富士 (omote, blue outline) + 10 裏富士 (ura, black outline additions). Canonical numbering follows the Wikipedia ordering; ura additions numbered 37–46.",
+  "assets": {
+    "primary_source": "The Metropolitan Museum of Art — Open Access / CC0",
+    "coverage": "46/46 CC0 at the Met (verified 2026-07-24)",
+    "backup": "Art Institute of Chicago (full series, CC0); Wikimedia Commons (PD)",
+    "met_image_hint": "Met object pages carry an Open Access high-res download; JP-code + obj id recorded per print for lookup",
+    "rights_note": "Underlying works are public domain (Hokusai d. 1849). Met/AIC release their scans as CC0. No print depends on a restrictive-license source."
+  },
+  "prints": [
+    {
+      "n": 1,
+      "group": "表",
+      "slug": "01-kanagawa-oki-namiura",
+      "ja": "神奈川沖浪裏",
+      "romaji": "Kanagawa oki nami-ura",
+      "en": "Under the Wave off Kanagawa (The Great Wave)",
+      "viewpoint": "Off the Kanagawa coast — mod. Kanagawa Pref.",
+      "met_jp": "JP1847",
+      "met_obj": 45434,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "浪谷中央極小",
+        "details": [
+          "三艘押送船上伏身的船夫",
+          "浪頭飛濺的爪狀泡沫",
+          "浪谷中極小的富士山"
+        ]
+      },
+      "hits": [
+        {
+          "label": "浪頭飛濺的爪狀泡沫",
+          "rect": [
+            0.16,
+            0.1,
+            0.28,
+            0.18
+          ]
+        },
+        {
+          "label": "浪谷中極小的富士山",
+          "rect": [
+            0.545,
+            0.55,
+            0.12,
+            0.12
+          ]
+        },
+        {
+          "label": "押送船上伏身的船夫",
+          "rect": [
+            0.42,
+            0.72,
+            0.27,
+            0.17
+          ]
+        }
+      ],
+      "pos": [
+        0.71,
+        0.87
+      ]
+    },
+    {
+      "n": 2,
+      "group": "表",
+      "slug": "02-gaifu-kaisei",
+      "ja": "凱風快晴",
+      "romaji": "Gaifū kaisei",
+      "en": "Fine Wind, Clear Morning (Red Fuji)",
+      "viewpoint": "No fixed locale — Fuji itself, from the Kai (Yamanashi) side at dawn",
+      "met_jp": "JP9",
+      "met_obj": 36490,
+      "suit": {
+        "density": 1,
+        "ok": "MARGINAL",
+        "fuji": "占滿整幅、赤紅主體",
+        "details": [
+          "上方藍天的絲狀卷雲",
+          "山腳的暗綠森林帶",
+          "近山頂的殘雪條紋"
+        ]
+      },
+      "hits": [
+        {
+          "label": "上方藍天的絲狀卷雲",
+          "rect": [
+            0.44,
+            0.02,
+            0.3,
+            0.1
+          ]
+        },
+        {
+          "label": "近山頂的殘雪條紋",
+          "rect": [
+            0.57,
+            0.17,
+            0.24,
+            0.17
+          ]
+        },
+        {
+          "label": "山腳的暗綠森林帶",
+          "rect": [
+            0.3,
+            0.46,
+            0.42,
+            0.15
+          ]
+        }
+      ],
+      "pos": [
+        0.545,
+        0.755
+      ]
+    },
+    {
+      "n": 3,
+      "group": "表",
+      "slug": "03-sanka-hakuu",
+      "ja": "山下白雨",
+      "romaji": "Sanka hakuu",
+      "en": "Storm below the Summit (Thunderstorm)",
+      "viewpoint": "No fixed locale — Fuji itself",
+      "met_jp": "JP11",
+      "met_obj": 36492,
+      "suit": {
+        "density": 2,
+        "ok": "MARGINAL",
+        "fuji": "占滿整幅、黑富士",
+        "details": [
+          "右下鋸齒狀的閃電",
+          "吞沒山腳的漆黑烏雲",
+          "藍天下的雪頂"
+        ]
+      },
+      "pos": [
+        0.565,
+        0.775
+      ],
+      "hits": [
+        {
+          "label": "右下鋸齒狀的閃電",
+          "rect": [
+            0.55,
+            0.76,
+            0.22,
+            0.18
+          ]
+        },
+        {
+          "label": "吞沒山腳的漆黑烏雲",
+          "rect": [
+            0.1,
+            0.6,
+            0.3,
+            0.16
+          ]
+        },
+        {
+          "label": "藍天下的雪頂",
+          "rect": [
+            0.44,
+            0.1,
+            0.18,
+            0.14
+          ]
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "group": "表",
+      "slug": "04-fukagawa-mannenbashi",
+      "ja": "深川万年橋下",
+      "romaji": "Fukagawa Mannen-bashi shita",
+      "en": "Under Mannen Bridge at Fukagawa",
+      "viewpoint": "Mannen Bridge, Fukagawa, Edo → Kōtō, Tokyo",
+      "met_jp": "JP1332",
+      "met_obj": 55289,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "橋拱內框住的遠富士",
+        "details": [
+          "拱橋上撐油紙傘的行人",
+          "前景岩上垂釣的漁夫",
+          "橋下河上的貨船"
+        ]
+      },
+      "pos": [
+        0.815,
+        0.765
+      ],
+      "hits": [
+        {
+          "label": "拱橋上撐油紙傘的行人",
+          "rect": [
+            0.34,
+            0.27,
+            0.3,
+            0.11
+          ]
+        },
+        {
+          "label": "前景岩上垂釣的漁夫",
+          "rect": [
+            0.02,
+            0.72,
+            0.17,
+            0.2
+          ]
+        },
+        {
+          "label": "橋下河上的貨船",
+          "rect": [
+            0.35,
+            0.75,
+            0.24,
+            0.16
+          ]
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "group": "表",
+      "slug": "05-toto-sundai",
+      "ja": "東都駿台",
+      "romaji": "Tōto Sundai",
+      "en": "Sundai (Surugadai) in the Eastern Capital",
+      "viewpoint": "Surugadai, Edo → Kanda-Surugadai, Chiyoda, Tokyo",
+      "met_jp": "JP1287",
+      "met_obj": 55227,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "松與屋頂間的遠景小富士",
+        "details": [
+          "左側的巨松",
+          "道上往來的旅人與工人",
+          "右側武家宅邸屋角"
+        ]
+      },
+      "pos": [
+        0.775,
+        0.765
+      ],
+      "hits": [
+        {
+          "label": "左側的巨松",
+          "rect": [
+            0.03,
+            0.16,
+            0.34,
+            0.4
+          ]
+        },
+        {
+          "label": "道上往來的旅人與工人",
+          "rect": [
+            0.14,
+            0.8,
+            0.32,
+            0.15
+          ]
+        },
+        {
+          "label": "右側武家宅邸屋角",
+          "rect": [
+            0.63,
+            0.55,
+            0.32,
+            0.22
+          ]
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "group": "表",
+      "slug": "06-aoyama-enza-no-matsu",
+      "ja": "青山円座松",
+      "romaji": "Aoyama Enza-no-matsu",
+      "en": "Cushion Pine at Aoyama",
+      "viewpoint": "Aoyama, Edo → Minato, Tokyo",
+      "met_jp": "JP2985",
+      "met_obj": 56388,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "雲間遠望、輪廓呼應松形",
+        "details": [
+          "以竹竿撐住枝條的圓座松",
+          "坡前攀登的父子",
+          "坡上野餐的人群"
+        ]
+      },
+      "pos": [
+        0.73,
+        0.775
+      ],
+      "hits": [
+        {
+          "label": "以竹竿撐住枝條的圓座松",
+          "rect": [
+            0.28,
+            0.44,
+            0.44,
+            0.34
+          ]
+        },
+        {
+          "label": "坡前攀登的父子",
+          "rect": [
+            0.06,
+            0.76,
+            0.2,
+            0.18
+          ]
+        },
+        {
+          "label": "坡上野餐的人群",
+          "rect": [
+            0.62,
+            0.8,
+            0.28,
+            0.15
+          ]
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "group": "表",
+      "slug": "07-bushu-senju",
+      "ja": "武州千住",
+      "romaji": "Bushū Senju",
+      "en": "Senju in Musashi Province",
+      "viewpoint": "Senju, Musashi → Adachi, Tokyo",
+      "met_jp": "JP1289",
+      "met_obj": 55231,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "水閘旁瞥見的遠富士",
+        "details": [
+          "低頭牽馬的男子",
+          "左下垂釣的漁夫",
+          "釣線上鉤住的小烏龜"
+        ]
+      },
+      "pos": [
+        0.79,
+        0.71
+      ],
+      "hits": [
+        {
+          "label": "低頭牽馬的男子",
+          "rect": [
+            0.42,
+            0.6,
+            0.22,
+            0.3
+          ]
+        },
+        {
+          "label": "左下垂釣的漁夫",
+          "rect": [
+            0.1,
+            0.7,
+            0.19,
+            0.22
+          ]
+        },
+        {
+          "label": "釣線上鉤住的小烏龜",
+          "rect": [
+            0.3,
+            0.83,
+            0.11,
+            0.12
+          ]
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "group": "表",
+      "slug": "08-bushu-tamagawa",
+      "ja": "武州玉川",
+      "romaji": "Bushū Tama-gawa",
+      "en": "The Tama River in Musashi Province",
+      "viewpoint": "Tama River, Musashi → Tokyo/Kanagawa border",
+      "met_jp": "JP2560",
+      "met_obj": 56998,
+      "suit": {
+        "density": 3,
+        "ok": "YES",
+        "fuji": "對岸遠處的小富士",
+        "details": [
+          "牽馬低頭飲水的男子",
+          "載柴渡河的小渡船",
+          "水面上消散的粉紅晨霧"
+        ]
+      },
+      "pos": [
+        0.695,
+        0.805
+      ],
+      "hits": [
+        {
+          "label": "牽馬低頭飲水的男子",
+          "rect": [
+            0.12,
+            0.8,
+            0.2,
+            0.16
+          ]
+        },
+        {
+          "label": "載柴渡河的小渡船",
+          "rect": [
+            0.46,
+            0.5,
+            0.22,
+            0.16
+          ]
+        },
+        {
+          "label": "水面上消散的粉紅晨霧",
+          "rect": [
+            0.06,
+            0.4,
+            0.32,
+            0.11
+          ]
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "group": "表",
+      "slug": "09-koshu-inume-toge",
+      "ja": "甲州犬目峠",
+      "romaji": "Kōshū Inume-tōge",
+      "en": "Inume Pass in Kai Province",
+      "viewpoint": "Inume Pass, Kai → Ōtsuki, Yamanashi",
+      "met_jp": "JP1426",
+      "met_obj": 55456,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "霧谷對面的紅褐山麓",
+        "details": [
+          "兩匹馱貨的馬",
+          "隨行的旅人",
+          "前方陡坡上攀登的兩人"
+        ]
+      },
+      "pos": [
+        0.6,
+        0.68
+      ],
+      "hits": [
+        {
+          "label": "兩匹馱貨的馬",
+          "rect": [
+            0.04,
+            0.78,
+            0.22,
+            0.14
+          ]
+        },
+        {
+          "label": "隨行的旅人",
+          "rect": [
+            0.27,
+            0.78,
+            0.15,
+            0.14
+          ]
+        },
+        {
+          "label": "前方陡坡上攀登的兩人",
+          "rect": [
+            0.71,
+            0.5,
+            0.19,
+            0.2
+          ]
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "group": "表",
+      "slug": "10-bishu-fujimigahara",
+      "ja": "尾州不二見原",
+      "romaji": "Bishū Fujimigahara",
+      "en": "Fujimigahara in Owari Province",
+      "viewpoint": "Fujimigahara, Owari → Nagoya, Aichi",
+      "met_jp": "JP19",
+      "met_obj": 36500,
+      "suit": {
+        "density": 3,
+        "ok": "YES",
+        "fuji": "桶圈中框住的極小富士",
+        "details": [
+          "桶中彎身工作的桶匠",
+          "地上放著鋸與槌的工具箱",
+          "桶旁的孤樹叢"
+        ]
+      },
+      "hits": [
+        {
+          "label": "桶中彎身工作的桶匠",
+          "rect": [
+            0.27,
+            0.33,
+            0.17,
+            0.23
+          ]
+        },
+        {
+          "label": "桶圈中框住的極小富士",
+          "rect": [
+            0.55,
+            0.45,
+            0.12,
+            0.12
+          ]
+        },
+        {
+          "label": "地上放著鋸與槌的工具箱",
+          "rect": [
+            0.04,
+            0.71,
+            0.23,
+            0.17
+          ]
+        }
+      ],
+      "pos": [
+        0.3,
+        0.62
+      ]
+    },
+    {
+      "n": 11,
+      "group": "表",
+      "slug": "11-toto-asakusa-honganji",
+      "ja": "東都浅草本願寺",
+      "romaji": "Tōto Asakusa Hongan-ji",
+      "en": "Honganji Temple at Asakusa in Edo",
+      "viewpoint": "Higashi-Honganji, Asakusa, Edo → Taitō, Tokyo",
+      "met_jp": "JP1323",
+      "met_obj": 55282,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "被巨大屋脊襯得渺小",
+        "details": [
+          "巨大屋頂上姿態誇張的瓦工",
+          "天上的風箏",
+          "下方連綿的小瓦屋頂"
+        ]
+      },
+      "pos": [
+        0.785,
+        0.745
+      ],
+      "hits": [
+        {
+          "label": "巨大屋頂上姿態誇張的瓦工",
+          "rect": [
+            0.66,
+            0.18,
+            0.22,
+            0.2
+          ]
+        },
+        {
+          "label": "天上的風箏",
+          "rect": [
+            0.12,
+            0.16,
+            0.15,
+            0.14
+          ]
+        },
+        {
+          "label": "下方連綿的小瓦屋頂",
+          "rect": [
+            0.04,
+            0.58,
+            0.32,
+            0.16
+          ]
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "group": "表",
+      "slug": "12-buyo-tsukudajima",
+      "ja": "武陽佃島",
+      "romaji": "Buyō Tsukuda-jima",
+      "en": "Tsukudajima in Musashi Province",
+      "viewpoint": "Tsukuda Island, Edo Bay → Tsukuda, Chūō, Tokyo",
+      "met_jp": "JP26",
+      "met_obj": 36507,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "地平線中央、桅影呼應山形",
+        "details": [
+          "遠處張帆的貨船",
+          "右側的漁村密屋",
+          "前景拉繩的船夫"
+        ]
+      },
+      "pos": [
+        0.785,
+        0.815
+      ],
+      "hits": [
+        {
+          "label": "遠處張帆的貨船",
+          "rect": [
+            0.04,
+            0.3,
+            0.16,
+            0.16
+          ]
+        },
+        {
+          "label": "右側的漁村密屋",
+          "rect": [
+            0.44,
+            0.35,
+            0.18,
+            0.13
+          ]
+        },
+        {
+          "label": "前景拉繩的船夫",
+          "rect": [
+            0.27,
+            0.72,
+            0.24,
+            0.2
+          ]
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "group": "表",
+      "slug": "13-soshu-shichirigahama",
+      "ja": "相州七里浜",
+      "romaji": "Sōshū Shichirigahama",
+      "en": "Shichirigahama Beach in Sagami Province",
+      "viewpoint": "Shichirigahama, Sagami → Kamakura, Kanagawa",
+      "met_jp": "(corrected)",
+      "met_obj": 55737,
+      "suit": {
+        "density": 2,
+        "ok": "MARGINAL",
+        "fuji": "岬後雪頂、半掩於樹村",
+        "details": [
+          "海中遠處的江之島",
+          "海灣轉角的茅頂村屋",
+          "岬上的松樹"
+        ]
+      },
+      "pos": [
+        0.65,
+        0.85
+      ],
+      "hits": [
+        {
+          "label": "海中遠處的江之島",
+          "rect": [
+            0.1,
+            0.44,
+            0.18,
+            0.12
+          ]
+        },
+        {
+          "label": "海灣轉角的茅頂村屋",
+          "rect": [
+            0.72,
+            0.62,
+            0.2,
+            0.14
+          ]
+        },
+        {
+          "label": "岬上的松樹",
+          "rect": [
+            0.74,
+            0.5,
+            0.18,
+            0.13
+          ]
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "group": "表",
+      "slug": "14-soshu-umezawa",
+      "ja": "相州梅澤庄",
+      "romaji": "Sōshū Umezawa-no-shō",
+      "en": "Umezawa Manor in Sagami Province",
+      "viewpoint": "Umezawa, Sagami → Ninomiya, Kanagawa",
+      "met_jp": "JP20",
+      "met_obj": 36501,
+      "suit": {
+        "density": 3,
+        "ok": "YES",
+        "fuji": "綠坡上方明顯的錐形",
+        "details": [
+          "前景溪邊覓食的五隻鶴",
+          "朝富士飛去的兩隻鶴",
+          "沼澤的蘆葦叢"
+        ]
+      },
+      "pos": [
+        0.6,
+        0.81
+      ],
+      "hits": [
+        {
+          "label": "前景溪邊覓食的五隻鶴",
+          "rect": [
+            0.13,
+            0.56,
+            0.26,
+            0.3
+          ]
+        },
+        {
+          "label": "朝富士飛去的兩隻鶴",
+          "rect": [
+            0.24,
+            0.28,
+            0.2,
+            0.12
+          ]
+        },
+        {
+          "label": "沼澤的蘆葦叢",
+          "rect": [
+            0.58,
+            0.6,
+            0.24,
+            0.16
+          ]
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "group": "表",
+      "slug": "15-koshu-kajikazawa",
+      "ja": "甲州石班澤",
+      "romaji": "Kōshū Kajikazawa",
+      "en": "Kajikazawa in Kai Province",
+      "viewpoint": "Kajikazawa on the Fuji River, Kai → Fujikawa, Yamanashi",
+      "met_jp": "JP1327",
+      "met_obj": 39656,
+      "suit": {
+        "density": 3,
+        "ok": "YES",
+        "fuji": "遠處藍色錐形、與釣線呼應",
+        "details": [
+          "岩尖上垂釣的漁夫",
+          "身旁蹲著的孩子",
+          "扇形展開的釣線"
+        ]
+      },
+      "pos": [
+        0.53,
+        0.68
+      ],
+      "hits": [
+        {
+          "label": "岩尖上垂釣的漁夫",
+          "rect": [
+            0.4,
+            0.27,
+            0.16,
+            0.18
+          ]
+        },
+        {
+          "label": "身旁蹲著的孩子",
+          "rect": [
+            0.28,
+            0.43,
+            0.15,
+            0.14
+          ]
+        },
+        {
+          "label": "扇形展開的釣線",
+          "rect": [
+            0.05,
+            0.3,
+            0.28,
+            0.14
+          ]
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "group": "表",
+      "slug": "16-koshu-mishima-goe",
+      "ja": "甲州三嶌越",
+      "romaji": "Kōshū Mishima-goe",
+      "en": "Mishima Pass in Kai Province",
+      "viewpoint": "Mishima Pass (giant cedar), Kai → nr Kagosaka, Yamanashi",
+      "met_jp": "JP18",
+      "met_obj": 36499,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "越過山口、山頂纏雲",
+        "details": [
+          "合抱巨杉的三名旅人",
+          "另坐一旁抽煙的第四人",
+          "占滿畫面的巨杉樹幹"
+        ]
+      },
+      "pos": [
+        0.565,
+        0.71
+      ],
+      "hits": [
+        {
+          "label": "合抱巨杉的三名旅人",
+          "rect": [
+            0.32,
+            0.74,
+            0.28,
+            0.2
+          ]
+        },
+        {
+          "label": "另坐一旁抽煙的第四人",
+          "rect": [
+            0.1,
+            0.78,
+            0.17,
+            0.13
+          ]
+        },
+        {
+          "label": "占滿畫面的巨杉樹幹",
+          "rect": [
+            0.42,
+            0.12,
+            0.16,
+            0.4
+          ]
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "group": "表",
+      "slug": "17-shinshu-suwako",
+      "ja": "信州諏訪湖",
+      "romaji": "Shinshū Suwa-ko",
+      "en": "Lake Suwa in Shinano Province",
+      "viewpoint": "Lake Suwa, Shinano → Suwa, Nagano",
+      "met_jp": "JP2564",
+      "met_obj": 39798,
+      "suit": {
+        "density": 2,
+        "ok": "YES",
+        "fuji": "湖對岸的明顯錐形、晨光",
+        "details": [
+          "前景松下的小神社",
+          "湖岬上的高島城",
+          "橫渡湖面的孤舟"
+        ]
+      },
+      "pos": [
+        0.49,
+        0.59
+      ],
+      "hits": [
+        {
+          "label": "前景松下的小神社",
+          "rect": [
+            0.4,
+            0.58,
+            0.16,
+            0.14
+          ]
+        },
+        {
+          "label": "湖岬上的高島城",
+          "rect": [
+            0.58,
+            0.4,
+            0.16,
+            0.12
+          ]
+        },
+        {
+          "label": "橫渡湖面的孤舟",
+          "rect": [
+            0.13,
+            0.48,
+            0.15,
+            0.1
+          ]
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "group": "表",
+      "slug": "18-sunshu-ejiri",
+      "ja": "駿州江尻",
+      "romaji": "Sunshū Ejiri",
+      "en": "Ejiri in Suruga Province (wind)",
+      "viewpoint": "Ejiri-juku, Suruga → Shimizu-ku, Shizuoka City",
+      "met_jp": "JP12",
+      "met_obj": 36493,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "遠處靜小、無雲",
+        "details": [
+          "天上如驚鳥般飛散的懷紙",
+          "飛起的斗笠與追趕的人",
+          "彎腰護住行李的旅人"
+        ]
+      },
+      "hits": [
+        {
+          "label": "如驚鳥般飛散的懷紙",
+          "rect": [
+            0.55,
+            0.19,
+            0.31,
+            0.19
+          ]
+        },
+        {
+          "label": "斗笠與樹下彎腰的旅人",
+          "rect": [
+            0.27,
+            0.45,
+            0.19,
+            0.24
+          ]
+        },
+        {
+          "label": "順風道上護行李的旅人",
+          "rect": [
+            0.57,
+            0.51,
+            0.23,
+            0.19
+          ]
+        }
+      ],
+      "pos": [
+        0.51,
+        0.8
+      ]
+    },
+    {
+      "n": 19,
+      "group": "表",
+      "slug": "19-totomi-sanchu",
+      "ja": "遠江山中",
+      "romaji": "Tōtōmi san-chū",
+      "en": "In the Mountains of Tōtōmi Province",
+      "viewpoint": "Mountains of Tōtōmi → western Shizuoka",
+      "met_jp": "JP25",
+      "met_obj": 36506,
+      "met_note": "also under legacy mis-title JP1022 'Izu no Sanchū'",
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "上方遠處小雪峰、雲呼應煙",
+        "details": [
+          "鋸切巨木的兩名鋸工",
+          "左端磨鋸的男子",
+          "背嬰指著炊煙的女子"
+        ]
+      },
+      "pos": [
+        0.44,
+        0.76
+      ],
+      "hits": [
+        {
+          "label": "鋸切巨木的兩名鋸工",
+          "rect": [
+            0.43,
+            0.28,
+            0.18,
+            0.3
+          ]
+        },
+        {
+          "label": "左端磨鋸的男子",
+          "rect": [
+            0.04,
+            0.62,
+            0.18,
+            0.16
+          ]
+        },
+        {
+          "label": "背嬰指著炊煙的女子",
+          "rect": [
+            0.33,
+            0.6,
+            0.18,
+            0.18
+          ]
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "group": "表",
+      "slug": "20-joshu-ushibori",
+      "ja": "常州牛堀",
+      "romaji": "Jōshū Ushibori",
+      "en": "Ushibori in Hitachi Province",
+      "viewpoint": "Ushibori, Hitachi → Itako, Ibaraki",
+      "met_jp": "JP2565",
+      "met_obj": 56785,
+      "suit": {
+        "density": 3,
+        "ok": "YES",
+        "fuji": "蘆葦後遠處的小雪峰",
+        "details": [
+          "蘆葦中驚起的兩隻白鷺",
+          "船邊俯身淘米的男子",
+          "高瀨舟的茅葺船棚"
+        ]
+      },
+      "pos": [
+        0.88,
+        0.66
+      ],
+      "hits": [
+        {
+          "label": "蘆葦中驚起的兩隻白鷺",
+          "rect": [
+            0.08,
+            0.5,
+            0.18,
+            0.14
+          ]
+        },
+        {
+          "label": "船邊俯身淘米的男子",
+          "rect": [
+            0.34,
+            0.56,
+            0.15,
+            0.15
+          ]
+        },
+        {
+          "label": "高瀨舟的茅葺船棚",
+          "rect": [
+            0.5,
+            0.38,
+            0.26,
+            0.2
+          ]
+        }
+      ]
+    },
+    {
+      "n": 21,
+      "group": "表",
+      "slug": "21-suruga-cho-mitsui",
+      "ja": "江都駿河町三井見世略図",
+      "romaji": "Kōto Suruga-chō Mitsui-mise ryakuzu",
+      "en": "Mitsui Shop at Surugachō in Edo",
+      "viewpoint": "Surugachō (Echigoya/Mitsui), Edo → Nihonbashi-Muromachi, Chūō, Tokyo",
+      "met_jp": "JP1296",
+      "met_obj": 55238,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "兩大屋頂正中框住、雪景",
+        "details": [
+          "屋頂拋草捆給張臂接住者的瓦工",
+          "天上的新年風箏",
+          "越後屋/三井的招牌與暖簾"
+        ]
+      },
+      "hits": [
+        {
+          "label": "天上的新年風箏",
+          "rect": [
+            0.34,
+            0.05,
+            0.27,
+            0.19
+          ]
+        },
+        {
+          "label": "屋頂拋草捆的瓦工",
+          "rect": [
+            0.27,
+            0.29,
+            0.27,
+            0.17
+          ]
+        },
+        {
+          "label": "越後屋的招牌與暖簾",
+          "rect": [
+            0.04,
+            0.61,
+            0.36,
+            0.25
+          ]
+        }
+      ],
+      "pos": [
+        0.755,
+        0.775
+      ]
+    },
+    {
+      "n": 22,
+      "group": "表",
+      "slug": "22-onmayagashi-ryogokubashi",
+      "ja": "御厩川岸より両国橋夕陽見",
+      "romaji": "Ommayagashi yori Ryōgoku-bashi yūhi-mi",
+      "en": "Sunset across Ryōgoku Bridge from Onmayagashi",
+      "viewpoint": "Onmayagashi on the Sumida, Edo → Kuramae, Taitō, Tokyo",
+      "met_jp": "(corrected)",
+      "met_obj": 53845,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "遠處深藍小三角、橋弧下",
+        "details": [
+          "渡船上持長竿的捕鳥人",
+          "左側水邊洗衣的女子",
+          "擁擠渡船上撐開的傘"
+        ]
+      },
+      "pos": [
+        0.8,
+        0.755
+      ],
+      "hits": [
+        {
+          "label": "渡船上持長竿的捕鳥人",
+          "rect": [
+            0.34,
+            0.58,
+            0.16,
+            0.18
+          ]
+        },
+        {
+          "label": "左側水邊洗衣的女子",
+          "rect": [
+            0.02,
+            0.6,
+            0.14,
+            0.18
+          ]
+        },
+        {
+          "label": "擁擠渡船上撐開的傘",
+          "rect": [
+            0.5,
+            0.56,
+            0.16,
+            0.15
+          ]
+        }
+      ]
+    },
+    {
+      "n": 23,
+      "group": "表",
+      "slug": "23-gohyaku-rakanji-sazaido",
+      "ja": "五百らかん寺さゞゐどう",
+      "romaji": "Gohyaku Rakan-ji Sazaidō",
+      "en": "Sazaidō Hall of the Five Hundred Rakan Temple",
+      "viewpoint": "Gohyaku-Rakanji, Honjo, Edo → Kōtō/Sumida, Tokyo",
+      "met_jp": "JP1335",
+      "met_obj": 37321,
+      "suit": {
+        "density": 3,
+        "ok": "MARGINAL",
+        "fuji": "沼澤對岸遠處、眾人凝望焦點",
+        "details": [
+          "指著富士的人物",
+          "人群中的孩童",
+          "女子的花紋夏衣"
+        ]
+      },
+      "pos": [
+        0.825,
+        0.755
+      ],
+      "hits": [
+        {
+          "label": "指著富士的人物",
+          "rect": [
+            0.02,
+            0.3,
+            0.15,
+            0.2
+          ]
+        },
+        {
+          "label": "人群中的孩童",
+          "rect": [
+            0.64,
+            0.56,
+            0.16,
+            0.22
+          ]
+        },
+        {
+          "label": "女子的花紋夏衣",
+          "rect": [
+            0.38,
+            0.42,
+            0.16,
+            0.24
+          ]
+        }
+      ]
+    },
+    {
+      "n": 24,
+      "group": "表",
+      "slug": "24-koishikawa-yuki-no-ashita",
+      "ja": "礫川雪ノ旦",
+      "romaji": "Koishikawa yuki no ashita",
+      "en": "Morning after Snow at Koishikawa in Edo",
+      "viewpoint": "Koishikawa, Edo → Bunkyō, Tokyo",
+      "met_jp": "JP2555",
+      "met_obj": 56990,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "右方雪覆、較顯著",
+        "details": [
+          "指向富士的女侍",
+          "茶屋上層備酒的宴客",
+          "積雪的松枝與空中小鳥"
+        ]
+      },
+      "pos": [
+        0.755,
+        0.755
+      ],
+      "hits": [
+        {
+          "label": "指向富士的女侍",
+          "rect": [
+            0.34,
+            0.35,
+            0.12,
+            0.14
+          ]
+        },
+        {
+          "label": "茶屋上層備酒的宴客",
+          "rect": [
+            0.24,
+            0.4,
+            0.12,
+            0.13
+          ]
+        },
+        {
+          "label": "積雪的松枝與空中小鳥",
+          "rect": [
+            0.1,
+            0.03,
+            0.24,
+            0.18
+          ]
+        }
+      ]
+    },
+    {
+      "n": 25,
+      "group": "表",
+      "slug": "25-shimo-meguro",
+      "ja": "下目黒",
+      "romaji": "Shimo-meguro",
+      "en": "Lower Meguro",
+      "viewpoint": "Shimo-Meguro, Edo outskirts → Meguro, Tokyo",
+      "met_jp": "JP1286",
+      "met_obj": 55226,
+      "suit": {
+        "density": 3,
+        "ok": "YES",
+        "fuji": "右下山凹間露出的小富士",
+        "details": [
+          "山道上的兩名鷹匠",
+          "跪伏的農夫",
+          "前景的大農舍屋頂"
+        ]
+      },
+      "pos": [
+        0.725,
+        0.815
+      ],
+      "hits": [
+        {
+          "label": "山道上的兩名鷹匠",
+          "rect": [
+            0.18,
+            0.35,
+            0.16,
+            0.17
+          ]
+        },
+        {
+          "label": "跪伏的農夫",
+          "rect": [
+            0.42,
+            0.58,
+            0.15,
+            0.16
+          ]
+        },
+        {
+          "label": "前景的大農舍屋頂",
+          "rect": [
+            0.0,
+            0.6,
+            0.22,
+            0.2
+          ]
+        }
+      ]
+    },
+    {
+      "n": 26,
+      "group": "表",
+      "slug": "26-onden-no-suisha",
+      "ja": "隠田の水車",
+      "romaji": "Onden no suisha",
+      "en": "The Waterwheel at Onden",
+      "viewpoint": "Onden on the Shibuya River, Edo → Jingūmae/Harajuku, Shibuya, Tokyo",
+      "met_jp": "JP1846",
+      "met_obj": 56131,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "背景遠處小富士、村民不顧",
+        "details": [
+          "轉動的大水車",
+          "牽著寵物烏龜的男孩",
+          "前景淘米的兩名女子"
+        ]
+      },
+      "hits": [
+        {
+          "label": "轉動的大水車",
+          "rect": [
+            0.07,
+            0.29,
+            0.33,
+            0.43
+          ]
+        },
+        {
+          "label": "前景淘米的女子",
+          "rect": [
+            0.41,
+            0.57,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "label": "背景遠處的小富士",
+          "rect": [
+            0.79,
+            0.41,
+            0.14,
+            0.15
+          ]
+        }
+      ],
+      "pos": [
+        0.72,
+        0.79
+      ]
+    },
+    {
+      "n": 27,
+      "group": "表",
+      "slug": "27-soshu-enoshima",
+      "ja": "相州江の島",
+      "romaji": "Sōshū Enoshima",
+      "en": "Enoshima in Sagami Province",
+      "viewpoint": "Enoshima island, Sagami → Fujisawa, Kanagawa",
+      "met_jp": "JP22",
+      "met_obj": 36503,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "海島與海之外的地平線、粉雲旁",
+        "details": [
+          "退潮沙洲上的朝聖者行列",
+          "刺出島樹的五重塔",
+          "岸邊的旅店與土產店"
+        ]
+      },
+      "pos": [
+        0.63,
+        0.86
+      ],
+      "hits": [
+        {
+          "label": "退潮沙洲上的朝聖者行列",
+          "rect": [
+            0.12,
+            0.72,
+            0.28,
+            0.13
+          ]
+        },
+        {
+          "label": "刺出島樹的五重塔",
+          "rect": [
+            0.26,
+            0.34,
+            0.12,
+            0.16
+          ]
+        },
+        {
+          "label": "岸邊的旅店與土產店",
+          "rect": [
+            0.03,
+            0.48,
+            0.24,
+            0.16
+          ]
+        }
+      ]
+    },
+    {
+      "n": 28,
+      "group": "表",
+      "slug": "28-tokaido-ejiri-tago-no-ura",
+      "ja": "東海道江尻田子の浦略図",
+      "romaji": "Tōkaidō Ejiri Tago-no-ura ryakuzu",
+      "en": "Tago Bay near Ejiri on the Tōkaidō",
+      "viewpoint": "Tago Bay near Ejiri, Suruga → Fuji City, Shizuoka",
+      "met_jp": "JP2561",
+      "met_obj": 57000,
+      "suit": {
+        "density": 3,
+        "ok": "YES",
+        "fuji": "背景雪斑錐形、船身呼應山坡",
+        "details": [
+          "兩船上奮力搖櫓的船工",
+          "岸上背鹽籃的工人",
+          "沿灘的製鹽窯屋"
+        ]
+      },
+      "pos": [
+        0.49,
+        0.81
+      ],
+      "hits": [
+        {
+          "label": "兩船上奮力搖櫓的船工",
+          "rect": [
+            0.12,
+            0.63,
+            0.3,
+            0.2
+          ]
+        },
+        {
+          "label": "岸上背鹽籃的工人",
+          "rect": [
+            0.47,
+            0.51,
+            0.15,
+            0.11
+          ]
+        },
+        {
+          "label": "沿灘的製鹽窯屋",
+          "rect": [
+            0.63,
+            0.44,
+            0.22,
+            0.12
+          ]
+        }
+      ]
+    },
+    {
+      "n": 29,
+      "group": "表",
+      "slug": "29-tokaido-yoshida",
+      "ja": "東海道吉田",
+      "romaji": "Tōkaidō Yoshida",
+      "en": "Yoshida on the Tōkaidō",
+      "viewpoint": "Yoshida-juku (Fujimi teahouse), Mikawa → Toyohashi, Aichi",
+      "met_jp": "JP2974",
+      "met_obj": 56360,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "茶屋敞開正面框住的遠富士",
+        "details": [
+          "指向富士的女侍",
+          "補草鞋的老腳夫",
+          "「冨士見茶屋」的招牌"
+        ]
+      },
+      "pos": [
+        0.4,
+        0.72
+      ],
+      "hits": [
+        {
+          "label": "指向富士的女侍",
+          "rect": [
+            0.05,
+            0.4,
+            0.15,
+            0.2
+          ]
+        },
+        {
+          "label": "補草鞋的老腳夫",
+          "rect": [
+            0.52,
+            0.56,
+            0.16,
+            0.2
+          ]
+        },
+        {
+          "label": "「冨士見茶屋」的招牌",
+          "rect": [
+            0.22,
+            0.04,
+            0.38,
+            0.14
+          ]
+        }
+      ]
+    },
+    {
+      "n": 30,
+      "group": "表",
+      "slug": "30-kazusa-no-kairo",
+      "ja": "上総ノ海路",
+      "romaji": "Kazusa no kairo",
+      "en": "At Sea off Kazusa",
+      "viewpoint": "Sea route off Kazusa → Bōsō peninsula, Chiba",
+      "met_jp": "JP2963",
+      "met_obj": 56238,
+      "met_note": "also under legacy mis-title JP1186 'Fuji from Miura, Sagami'",
+      "suit": {
+        "density": 2,
+        "ok": "MARGINAL",
+        "fuji": "兩帆之間縫隙中央極小",
+        "details": [
+          "前景貨船高聳的粗布帆與桅",
+          "第二艘大貨船",
+          "地平線一排小帆船"
+        ]
+      },
+      "pos": [
+        0.8,
+        0.91
+      ],
+      "hits": [
+        {
+          "label": "前景貨船高聳的粗布帆與桅",
+          "rect": [
+            0.24,
+            0.13,
+            0.27,
+            0.38
+          ]
+        },
+        {
+          "label": "第二艘大貨船",
+          "rect": [
+            0.63,
+            0.28,
+            0.23,
+            0.23
+          ]
+        },
+        {
+          "label": "地平線一排小帆船",
+          "rect": [
+            0.03,
+            0.38,
+            0.18,
+            0.08
+          ]
+        }
+      ]
+    },
+    {
+      "n": 31,
+      "group": "表",
+      "slug": "31-edo-nihonbashi",
+      "ja": "江戸日本橋",
+      "romaji": "Edo Nihonbashi",
+      "en": "Nihonbashi in Edo",
+      "viewpoint": "Nihonbashi bridge, Edo → Chūō, Tokyo",
+      "met_jp": "JP2993",
+      "met_obj": 56394,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "上方正中、江戶城之後的小富士",
+        "details": [
+          "橋上擠成一片的斗笠人頭",
+          "河邊的白色土藏",
+          "地平線頂端的江戶城"
+        ]
+      },
+      "pos": [
+        0.765,
+        0.79
+      ],
+      "hits": [
+        {
+          "label": "橋上擠成一片的斗笠人頭",
+          "rect": [
+            0.28,
+            0.86,
+            0.42,
+            0.13
+          ]
+        },
+        {
+          "label": "河邊的白色土藏",
+          "rect": [
+            0.72,
+            0.42,
+            0.22,
+            0.17
+          ]
+        },
+        {
+          "label": "地平線頂端的江戶城",
+          "rect": [
+            0.36,
+            0.34,
+            0.18,
+            0.11
+          ]
+        }
+      ]
+    },
+    {
+      "n": 32,
+      "group": "表",
+      "slug": "32-sumidagawa-sekiya",
+      "ja": "隅田川関屋の里",
+      "romaji": "Sumida-gawa Sekiya-no-sato",
+      "en": "Sekiya Village on the Sumida River",
+      "viewpoint": "Sekiya on the Sumida, Edo → Adachi, Tokyo",
+      "met_jp": "JP1338",
+      "met_obj": 55291,
+      "met_note": "also under legacy title JP58 'Koshigaya'",
+      "suit": {
+        "density": 3,
+        "ok": "YES",
+        "fuji": "地平線遠處靜藍小富士",
+        "details": [
+          "三名疾馳的飛腳騎士",
+          "框住道路的樹叢",
+          "越過沼澤的蜿蜒堤道"
+        ]
+      },
+      "pos": [
+        0.805,
+        0.735
+      ],
+      "hits": [
+        {
+          "label": "三名疾馳的飛腳騎士",
+          "rect": [
+            0.1,
+            0.56,
+            0.4,
+            0.36
+          ]
+        },
+        {
+          "label": "框住道路的樹叢",
+          "rect": [
+            0.34,
+            0.05,
+            0.3,
+            0.28
+          ]
+        },
+        {
+          "label": "越過沼澤的蜿蜒堤道",
+          "rect": [
+            0.1,
+            0.42,
+            0.52,
+            0.12
+          ]
+        }
+      ]
+    },
+    {
+      "n": 33,
+      "group": "表",
+      "slug": "33-noboto-ura",
+      "ja": "登戸浦",
+      "romaji": "Noboto-ura",
+      "en": "Noboto Bay",
+      "viewpoint": "Noboto Bay (torii in the sea), Shimōsa → Chūō-ku, Chiba City",
+      "met_jp": "JP1337",
+      "met_obj": 39655,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "兩鳥居之間框住的遠富士",
+        "details": [
+          "水中矗立的兩座鳥居",
+          "背貝籃的採貝人",
+          "小鳥居下追逐的孩童"
+        ]
+      },
+      "pos": [
+        0.84,
+        0.87
+      ],
+      "hits": [
+        {
+          "label": "水中矗立的兩座鳥居",
+          "rect": [
+            0.3,
+            0.22,
+            0.4,
+            0.2
+          ]
+        },
+        {
+          "label": "背貝籃的採貝人",
+          "rect": [
+            0.36,
+            0.58,
+            0.26,
+            0.18
+          ]
+        },
+        {
+          "label": "小鳥居下追逐的孩童",
+          "rect": [
+            0.05,
+            0.7,
+            0.24,
+            0.22
+          ]
+        }
+      ]
+    },
+    {
+      "n": 34,
+      "group": "表",
+      "slug": "34-soshu-hakone-kosui",
+      "ja": "相州箱根湖水",
+      "romaji": "Sōshū Hakone-kosui",
+      "en": "The Lake at Hakone in Sagami Province",
+      "viewpoint": "Lake Ashi, Hakone, Sagami → Hakone, Kanagawa",
+      "met_jp": "JP17",
+      "met_obj": 36498,
+      "suit": {
+        "density": 2,
+        "ok": "MARGINAL",
+        "fuji": "蘆之湖後主體錐形、半掩霧中",
+        "details": [
+          "右岸林間的幾間屋舍",
+          "樹間隱藏的箱根神社",
+          "松上飄動的霞帶"
+        ]
+      },
+      "pos": [
+        0.61,
+        0.84
+      ],
+      "hits": [
+        {
+          "label": "右岸林間的幾間屋舍",
+          "rect": [
+            0.66,
+            0.55,
+            0.22,
+            0.16
+          ]
+        },
+        {
+          "label": "樹間隱藏的箱根神社",
+          "rect": [
+            0.44,
+            0.62,
+            0.18,
+            0.15
+          ]
+        },
+        {
+          "label": "松上飄動的霞帶",
+          "rect": [
+            0.3,
+            0.44,
+            0.34,
+            0.12
+          ]
+        }
+      ]
+    },
+    {
+      "n": 35,
+      "group": "表",
+      "slug": "35-koshu-misaka-suimen",
+      "ja": "甲州三坂水面",
+      "romaji": "Kōshū Misaka suimen",
+      "en": "Reflection in Lake at Misaka in Kai Province",
+      "viewpoint": "Misaka Pass / Lake Kawaguchi, Kai → Fujikawaguchiko, Yamanashi",
+      "met_jp": "JP14",
+      "met_obj": 36495,
+      "suit": {
+        "density": 2,
+        "ok": "YES",
+        "fuji": "上方裸峰＋湖中雪頂倒影",
+        "details": [
+          "右下小舟中的孤獨漁夫",
+          "湖中雪頂倒影對比裸岩實峰",
+          "近岸的小屋與樹"
+        ]
+      },
+      "pos": [
+        0.545,
+        0.71
+      ],
+      "hits": [
+        {
+          "label": "右下小舟中的孤獨漁夫",
+          "rect": [
+            0.6,
+            0.76,
+            0.22,
+            0.15
+          ]
+        },
+        {
+          "label": "湖中雪頂倒影對比裸岩實峰",
+          "rect": [
+            0.4,
+            0.15,
+            0.26,
+            0.28
+          ]
+        },
+        {
+          "label": "近岸的小屋與樹",
+          "rect": [
+            0.34,
+            0.52,
+            0.26,
+            0.14
+          ]
+        }
+      ]
+    },
+    {
+      "n": 36,
+      "group": "表",
+      "slug": "36-tokaido-hodogaya",
+      "ja": "東海道保土ケ谷",
+      "romaji": "Tōkaidō Hodogaya",
+      "en": "Hodogaya on the Tōkaidō",
+      "viewpoint": "Hodogaya-juku, Musashi/Sagami → Hodogaya-ku, Yokohama, Kanagawa",
+      "met_jp": "JP1427",
+      "met_obj": 55458,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "高聳路松樹幹間的遠富士",
+        "details": [
+          "放下的女乘駕籠與兩名轎夫",
+          "馬夫牽的馱馬",
+          "深編笠的虛無僧"
+        ]
+      },
+      "pos": [
+        0.68,
+        0.82
+      ],
+      "hits": [
+        {
+          "label": "放下的女乘駕籠與兩名轎夫",
+          "rect": [
+            0.05,
+            0.72,
+            0.24,
+            0.22
+          ]
+        },
+        {
+          "label": "馬夫牽的馱馬",
+          "rect": [
+            0.38,
+            0.72,
+            0.26,
+            0.22
+          ]
+        },
+        {
+          "label": "深編笠的虛無僧",
+          "rect": [
+            0.66,
+            0.72,
+            0.22,
+            0.22
+          ]
+        }
+      ]
+    },
+    {
+      "n": 37,
+      "group": "裏",
+      "slug": "37-honjo-tatekawa",
+      "ja": "本所立川",
+      "romaji": "Honjo Tatekawa",
+      "en": "Tatekawa (Timberyard) at Honjo",
+      "viewpoint": "Tatekawa timberyard, Honjo, Edo → Sumida, Tokyo",
+      "met_jp": "JP1285",
+      "met_obj": 55225,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "堆立木材之間瞥見的小富士",
+        "details": [
+          "用大鋸鋸板的男子",
+          "把木塊拋給接住者的工人",
+          "右下木板上的版元題記"
+        ]
+      },
+      "pos": [
+        0.82,
+        0.775
+      ],
+      "hits": [
+        {
+          "label": "用大鋸鋸板的男子",
+          "rect": [
+            0.02,
+            0.05,
+            0.2,
+            0.24
+          ]
+        },
+        {
+          "label": "把木塊拋給接住者的工人",
+          "rect": [
+            0.28,
+            0.7,
+            0.24,
+            0.22
+          ]
+        },
+        {
+          "label": "右下木板上的版元題記",
+          "rect": [
+            0.72,
+            0.72,
+            0.24,
+            0.22
+          ]
+        }
+      ]
+    },
+    {
+      "n": 38,
+      "group": "裏",
+      "slug": "38-senju-hanamachi-chobo",
+      "ja": "従千住花街眺望ノ不二",
+      "romaji": "Senju Hana-machi yori chōbō no Fuji",
+      "en": "Fuji seen from the Senju Pleasure Quarter",
+      "viewpoint": "Senju, Musashi → Adachi, Tokyo",
+      "met_jp": "JP2989",
+      "met_obj": 56391,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "越過稻田、水閘外遠望",
+        "details": [
+          "繫在馬韁上的小烏龜",
+          "牽著疲馬的旅人",
+          "水邊垂釣的兩名男子"
+        ]
+      },
+      "pos": [
+        0.8,
+        0.72
+      ],
+      "hits": [
+        {
+          "label": "繫在馬韁上的小烏龜",
+          "rect": [
+            0.58,
+            0.6,
+            0.14,
+            0.13
+          ]
+        },
+        {
+          "label": "牽著疲馬的旅人",
+          "rect": [
+            0.36,
+            0.64,
+            0.22,
+            0.24
+          ]
+        },
+        {
+          "label": "水邊垂釣的兩名男子",
+          "rect": [
+            0.16,
+            0.5,
+            0.22,
+            0.13
+          ]
+        }
+      ]
+    },
+    {
+      "n": 39,
+      "group": "裏",
+      "slug": "39-shinagawa-gotenyama",
+      "ja": "東海道品川御殿山ノ不二",
+      "romaji": "Tōkaidō Shinagawa Goten'yama no Fuji",
+      "en": "Fuji from Gotenyama at Shinagawa on the Tōkaidō",
+      "viewpoint": "Gotenyama, Shinagawa-juku, Musashi → Shinagawa, Tokyo",
+      "met_jp": "JP1284",
+      "met_obj": 55223,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "盛開櫻樹幹間框住",
+        "details": [
+          "席上飲酒的三名男子",
+          "揮扇起舞的人",
+          "被扛在肩上的孩童"
+        ]
+      },
+      "pos": [
+        0.755,
+        0.82
+      ],
+      "hits": [
+        {
+          "label": "席上飲酒的三名男子",
+          "rect": [
+            0.4,
+            0.8,
+            0.18,
+            0.16
+          ]
+        },
+        {
+          "label": "揮扇起舞的人",
+          "rect": [
+            0.24,
+            0.77,
+            0.15,
+            0.18
+          ]
+        },
+        {
+          "label": "被扛在肩上的孩童",
+          "rect": [
+            0.62,
+            0.76,
+            0.16,
+            0.18
+          ]
+        }
+      ]
+    },
+    {
+      "n": 40,
+      "group": "裏",
+      "slug": "40-soshu-nakahara",
+      "ja": "相州仲原",
+      "romaji": "Sōshū Nakahara",
+      "en": "Nakahara in Sagami Province",
+      "viewpoint": "Nakahara, Sagami → Hiratsuka, Kanagawa",
+      "met_jp": "JP1325",
+      "met_obj": 55284,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "背景較大、長山麓全貌",
+        "details": [
+          "河中俯身撒網的漁夫",
+          "背嬰頭頂重物過板橋的女子",
+          "橋邊的石造不動明王像"
+        ]
+      },
+      "pos": [
+        0.635,
+        0.8
+      ],
+      "hits": [
+        {
+          "label": "河中俯身撒網的漁夫",
+          "rect": [
+            0.02,
+            0.7,
+            0.18,
+            0.2
+          ]
+        },
+        {
+          "label": "背嬰頭頂重物過板橋的女子",
+          "rect": [
+            0.34,
+            0.66,
+            0.16,
+            0.22
+          ]
+        },
+        {
+          "label": "橋邊的石造不動明王像",
+          "rect": [
+            0.6,
+            0.66,
+            0.14,
+            0.22
+          ]
+        }
+      ]
+    },
+    {
+      "n": 41,
+      "group": "裏",
+      "slug": "41-koshu-isawa-no-akatsuki",
+      "ja": "甲州伊沢暁",
+      "romaji": "Kōshū Isawa no Akatsuki",
+      "en": "Dawn at Isawa in Kai Province",
+      "viewpoint": "Isawa post town, Kai → Isawa, Fuefuki, Yamanashi",
+      "met_jp": "JP1328",
+      "met_obj": 55286,
+      "suit": {
+        "density": 3,
+        "ok": "MARGINAL",
+        "fuji": "山後、承晨光、中等大小",
+        "details": [
+          "離開宿場的馱馬與旅人",
+          "一排茅葺的屋舍",
+          "承接晨光的富士"
+        ]
+      },
+      "pos": [
+        0.575,
+        0.675
+      ],
+      "hits": [
+        {
+          "label": "離開宿場的馱馬與旅人",
+          "rect": [
+            0.34,
+            0.8,
+            0.22,
+            0.14
+          ]
+        },
+        {
+          "label": "一排茅葺的屋舍",
+          "rect": [
+            0.12,
+            0.58,
+            0.4,
+            0.14
+          ]
+        },
+        {
+          "label": "承接晨光的富士",
+          "rect": [
+            0.36,
+            0.12,
+            0.22,
+            0.24
+          ]
+        }
+      ]
+    },
+    {
+      "n": 42,
+      "group": "裏",
+      "slug": "42-minobugawa-ura-fuji",
+      "ja": "身延川裏不二",
+      "romaji": "Minobu-gawa ura Fuji",
+      "en": "Back View of Fuji from the Minobu River",
+      "viewpoint": "Minobu River, Kai → Minobu, Yamanashi",
+      "met_jp": "JP13",
+      "met_obj": 36494,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "陡峰之間只露山頂、極難找",
+        "details": [
+          "牽兩匹馬的男子",
+          "兩名轎夫抬的駕籠",
+          "翻騰的河川激流"
+        ]
+      },
+      "pos": [
+        0.5,
+        0.72
+      ],
+      "hits": [
+        {
+          "label": "牽兩匹馬的男子",
+          "rect": [
+            0.28,
+            0.74,
+            0.18,
+            0.16
+          ]
+        },
+        {
+          "label": "兩名轎夫抬的駕籠",
+          "rect": [
+            0.46,
+            0.7,
+            0.16,
+            0.16
+          ]
+        },
+        {
+          "label": "翻騰的河川激流",
+          "rect": [
+            0.04,
+            0.74,
+            0.24,
+            0.2
+          ]
+        }
+      ]
+    },
+    {
+      "n": 43,
+      "group": "裏",
+      "slug": "43-sunshu-ono-shinden",
+      "ja": "駿州大野新田",
+      "romaji": "Sunshū Ōno-shinden",
+      "en": "The New Fields at Ōno in Suruga Province",
+      "viewpoint": "Ōno reclaimed marsh, Suruga → Fuji City area, Shizuoka",
+      "met_jp": "JP1456",
+      "met_obj": 55503,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "霧沼之後高聳背景",
+        "details": [
+          "馱著蘆葦捆的牛",
+          "背小捆蘆葦的女子",
+          "飛過霧沼的白鷺"
+        ]
+      },
+      "pos": [
+        0.5,
+        0.79
+      ],
+      "hits": [
+        {
+          "label": "馱著蘆葦捆的牛",
+          "rect": [
+            0.42,
+            0.58,
+            0.34,
+            0.3
+          ]
+        },
+        {
+          "label": "背小捆蘆葦的女子",
+          "rect": [
+            0.04,
+            0.66,
+            0.16,
+            0.22
+          ]
+        },
+        {
+          "label": "飛過霧沼的白鷺",
+          "rect": [
+            0.28,
+            0.4,
+            0.22,
+            0.12
+          ]
+        }
+      ]
+    },
+    {
+      "n": 44,
+      "group": "裏",
+      "slug": "44-sunshu-katakura-chaen",
+      "ja": "駿州片倉茶園ノ不二",
+      "romaji": "Sunshū Katakura-chaen no Fuji",
+      "en": "Fuji from the Katakura Tea Fields in Suruga",
+      "viewpoint": "Katakura tea plantation, Suruga → Fuji City, Shizuoka",
+      "met_jp": "JP1334",
+      "met_obj": 37320,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "遠處雪頂、右側大樹框住",
+        "details": [
+          "戴斗笠採茶的女子",
+          "梳理牽引馬匹的男子",
+          "角落堆疊的茶桶"
+        ]
+      },
+      "pos": [
+        0.53,
+        0.77
+      ],
+      "hits": [
+        {
+          "label": "戴斗笠採茶的女子",
+          "rect": [
+            0.22,
+            0.52,
+            0.26,
+            0.26
+          ]
+        },
+        {
+          "label": "梳理牽引馬匹的男子",
+          "rect": [
+            0.52,
+            0.56,
+            0.18,
+            0.2
+          ]
+        },
+        {
+          "label": "角落堆疊的茶桶",
+          "rect": [
+            0.7,
+            0.72,
+            0.2,
+            0.18
+          ]
+        }
+      ]
+    },
+    {
+      "n": 45,
+      "group": "裏",
+      "slug": "45-tokaido-kanaya",
+      "ja": "東海道金谷ノ不二",
+      "romaji": "Tōkaidō Kanaya no Fuji",
+      "en": "Fuji from Kanaya on the Tōkaidō",
+      "viewpoint": "Kanaya-juku / Ōi River crossing, Tōtōmi → Shimada, Shizuoka",
+      "met_jp": "JP2975",
+      "met_obj": 56365,
+      "suit": {
+        "density": 5,
+        "ok": "YES",
+        "fuji": "背景靜止單色錐形(相對前景渺小)",
+        "details": [
+          "架在梯狀台上抬過水的駕籠",
+          "騎在腳夫肩上過河的旅人",
+          "裸身涉水的渡河夫"
+        ]
+      },
+      "pos": [
+        0.46,
+        0.82
+      ],
+      "hits": [
+        {
+          "label": "架在梯狀台上抬過水的駕籠",
+          "rect": [
+            0.32,
+            0.54,
+            0.22,
+            0.18
+          ]
+        },
+        {
+          "label": "騎在腳夫肩上過河的旅人",
+          "rect": [
+            0.52,
+            0.62,
+            0.18,
+            0.18
+          ]
+        },
+        {
+          "label": "裸身涉水的渡河夫",
+          "rect": [
+            0.08,
+            0.74,
+            0.26,
+            0.18
+          ]
+        }
+      ]
+    },
+    {
+      "n": 46,
+      "group": "裏",
+      "slug": "46-shojin-tozan",
+      "ja": "諸人登山",
+      "romaji": "Shojin tozan",
+      "en": "Groups of Mountain Climbers",
+      "viewpoint": "On Mount Fuji itself (pilgrims ascending)",
+      "met_jp": "JP1322",
+      "met_obj": 55281,
+      "suit": {
+        "density": 4,
+        "ok": "YES",
+        "fuji": "無——視點在山上,富士即場景本身",
+        "details": [
+          "岩窟中擁擠休息的朝聖者",
+          "登山者的金剛杖",
+          "攀爬岩壁的白衣行者"
+        ]
+      },
+      "pos": [
+        0.555,
+        0.735
+      ],
+      "hits": [
+        {
+          "label": "岩窟中擁擠休息的朝聖者",
+          "rect": [
+            0.56,
+            0.28,
+            0.24,
+            0.2
+          ]
+        },
+        {
+          "label": "登山者的金剛杖",
+          "rect": [
+            0.04,
+            0.64,
+            0.18,
+            0.22
+          ]
+        },
+        {
+          "label": "攀爬岩壁的白衣行者",
+          "rect": [
+            0.3,
+            0.7,
+            0.24,
+            0.22
+          ]
+        }
+      ]
+    }
+  ]
+}

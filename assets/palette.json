@@ -1,0 +1,48 @@
+{
+  "colors": [
+    "#ebd3b0",
+    "#f9debb",
+    "#b59378",
+    "#51616a",
+    "#faf3e0",
+    "#50717c",
+    "#f7e7cc",
+    "#78827e",
+    "#bead8e",
+    "#bdc0ad",
+    "#889a93",
+    "#d6c4a1",
+    "#2b4863",
+    "#957569",
+    "#e5c69b",
+    "#ebdcc1"
+  ],
+  "share": [
+    0.1008,
+    0.0852,
+    0.075,
+    0.0723,
+    0.0715,
+    0.0662,
+    0.0655,
+    0.0636,
+    0.0604,
+    0.0595,
+    0.0568,
+    0.0563,
+    0.0482,
+    0.0445,
+    0.0416,
+    0.0326
+  ],
+  "n": 16,
+  "source": [
+    "01-kanagawa-oki-namiura.jpg",
+    "02-gaifu-kaisei.jpg",
+    "10-bishu-fujimigahara.jpg",
+    "18-sunshu-ejiri.jpg",
+    "21-suruga-cho-mitsui.jpg",
+    "26-onden-no-suisha.jpg"
+  ],
+  "method": "PIL median-cut over asset montage"
+}

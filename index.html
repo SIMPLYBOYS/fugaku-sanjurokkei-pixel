@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>冨嶽三十六景 ピクセル — Fugaku Pixel</title>
+<style>
+  :root{
+    --paper:#ebd3b0; --ink:#233042; --navy:#1a2740; --navy2:#101a2e;
+    --blue:#2b4863; --blue2:#50717c; --gold:#e3b23c; --foam:#f2ecdd;
+    --snow:#f7f2e6; --dim:#6a7793;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:radial-gradient(120% 90% at 50% 42%, #22344f 0%, var(--navy) 45%, var(--navy2) 100%);
+    color:var(--foam); font-family:"Hiragino Mincho ProN","Yu Mincho",'Songti SC',serif;
+    overflow:hidden; -webkit-tap-highlight-color:transparent;
+  }
+  /* ---------- overworld ---------- */
+  #world{position:fixed;inset:0;background:#0b1220;overflow:hidden}
+  #world header{position:absolute;top:0;left:0;right:0;padding:18px 20px 30px;text-align:center;pointer-events:none;z-index:5;background:linear-gradient(#0a1120e6,#0a112000)}
+  #world h1{font-size:clamp(20px,3.4vw,32px);letter-spacing:.28em;font-weight:600;text-shadow:0 2px 10px #0008}
+  #world .sub{font-size:12px;letter-spacing:.34em;color:var(--dim);margin-top:6px}
+  #hud{position:absolute;top:16px;right:18px;z-index:6;font-size:12px;letter-spacing:.15em;color:var(--dim);text-align:right;pointer-events:auto}
+  #hud b{color:var(--gold);font-size:15px}
+  #hud button{margin-top:8px;display:block;margin-left:auto}
+  button{font-family:inherit;background:#0003;color:var(--foam);border:1px solid #ffffff30;
+    padding:7px 14px;border-radius:2px;letter-spacing:.2em;font-size:12px;cursor:pointer;transition:.15s}
+  button:hover{background:var(--gold);color:var(--navy2);border-color:var(--gold)}
+  #maparea{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  #mapinner{position:relative;line-height:0}
+  #mapinner img{display:block;max-width:100vw;max-height:100vh}
+  #mapinner .scrim{position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:radial-gradient(135% 120% at 55% 48%, #0a112000 32%, #0a1120e2 100%),
+               linear-gradient(#0a112077,#0a112000 20%,#0a112000 80%,#0a1120aa)}
+  #fuji{position:absolute;transform:translate(-50%,-62%);z-index:3;pointer-events:none;filter:drop-shadow(0 3px 12px #000c)}
+  #fujiLabel{position:absolute;transform:translate(-50%,0);z-index:3;pointer-events:none;
+    color:#fbeec8;font-size:12px;letter-spacing:.34em;text-shadow:0 1px 5px #000,0 0 12px #000}
+  .node{position:absolute;transform:translate(-50%,-50%);z-index:4;cursor:pointer;
+    width:13px;height:13px;border-radius:50%;background:#f4ede0d0;border:1px solid #0a1120;
+    box-shadow:0 0 0 2px #0a1120aa,0 1px 3px #000a;transition:.16s}
+  .node.play{background:var(--gold);border-color:#0a1120;
+    box-shadow:0 0 0 2px #0a1120cc,0 0 0 0 #e3b23c88;animation:pulse 2.4s infinite}
+  .node.done{background:#7fb0c4;border-color:#0a1120;box-shadow:0 0 0 2px #0a1120cc,0 1px 3px #000a}
+  .node.play:hover,.node.done:hover,.node.locked:hover{transform:translate(-50%,-50%) scale(1.55)}
+  .node.locked{opacity:.5}
+  .node .tip{position:absolute;left:50%;top:-8px;transform:translate(-50%,-100%);white-space:nowrap;
+    background:#000d;padding:5px 10px;border-radius:2px;font-size:12px;letter-spacing:.12em;line-height:1.5;opacity:0;
+    transition:.15s;pointer-events:none;z-index:6}
+  .node .tip small{color:var(--dim);letter-spacing:.06em}
+  .node:hover .tip{opacity:1;top:-12px}
+  .node.done .tip::after{content:" ✓";color:var(--gold)}
+  @keyframes pulse{0%{box-shadow:0 0 0 2px #0a1120cc,0 0 0 0 #e3b23c99}70%{box-shadow:0 0 0 2px #0a1120cc,0 0 0 11px #e3b23c00}100%{box-shadow:0 0 0 2px #0a1120cc,0 0 0 0 #e3b23c00}}
+  /* ---------- scene ---------- */
+  #scene{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;
+    background:radial-gradient(120% 90% at 50% 30%,#1c2b44,var(--navy2));padding:14px}
+  #scene.on{display:flex}
+  #sTop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
+  #sTitle b{font-size:19px;letter-spacing:.14em}
+  #sTitle span{color:var(--dim);font-size:12px;letter-spacing:.16em;margin-left:10px}
+  #stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+  #frame{position:relative;line-height:0;box-shadow:0 10px 50px #000b;border:6px solid #0e1626;background:#0e1626}
+  #frame img{display:block;width:min(92vw,780px);height:auto;max-height:68vh;image-rendering:pixelated;cursor:crosshair}
+  .mark{position:absolute;border:2px solid var(--gold);border-radius:2px;box-shadow:0 0 12px #e3b23c88;
+    pointer-events:none;animation:pop .3s ease-out}
+  .mark b{position:absolute;left:0;top:-20px;background:var(--gold);color:var(--navy2);font-size:11px;
+    padding:1px 6px;border-radius:2px;white-space:nowrap;letter-spacing:.08em}
+  @keyframes pop{from{transform:scale(1.6);opacity:0}to{transform:scale(1);opacity:1}}
+  #ripple{position:absolute;width:26px;height:26px;border:2px solid #fff8;border-radius:50%;
+    transform:translate(-50%,-50%) scale(0);pointer-events:none}
+  #ripple.go{animation:rip .45s ease-out}
+  @keyframes rip{from{transform:translate(-50%,-50%) scale(0);opacity:1}to{transform:translate(-50%,-50%) scale(1.8);opacity:0}}
+  #finds{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .find{display:flex;align-items:center;gap:8px;background:#0004;border:1px solid #ffffff1e;
+    padding:8px 13px;border-radius:2px;font-size:13px;letter-spacing:.08em;transition:.2s}
+  .find .dot{width:14px;height:14px;border-radius:50%;border:1px solid var(--dim);flex:none}
+  .find.got{border-color:var(--gold);color:var(--gold)}
+  .find.got .dot{background:var(--gold);border-color:var(--gold)}
+  .find.got .lbl{text-decoration:none}
+  #sBack{position:absolute;top:14px;right:16px;z-index:3}
+  /* ---------- unlock / modal ---------- */
+  .veil{position:fixed;inset:0;z-index:30;background:#060b16ee;display:none;
+    align-items:center;justify-content:center;padding:20px}
+  .veil.on{display:flex}
+  .card{max-width:920px;width:100%;max-height:92vh;overflow:auto;text-align:center;
+    background:linear-gradient(#16233c,#0e1626);border:1px solid #ffffff1e;border-radius:4px;padding:24px}
+  .card img{max-width:100%;max-height:56vh;border:5px solid #0e1626;box-shadow:0 8px 40px #000c;margin:12px 0}
+  .card h2{font-size:22px;letter-spacing:.16em;margin-bottom:4px}
+  .card .prov{color:var(--dim);font-size:12px;letter-spacing:.1em;line-height:1.7;margin:8px auto;max-width:640px}
+  .card .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .fuji-note{color:var(--gold);font-size:13px;letter-spacing:.1em;margin-top:6px}
+  /* zukan */
+  #zukan .card{max-width:1000px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:16px}
+  .cell{background:#0004;border:1px solid #ffffff14;border-radius:2px;padding:8px;font-size:11px;letter-spacing:.05em}
+  .cell img{width:100%;height:auto;image-rendering:pixelated;border:none;box-shadow:none;margin:0 0 6px}
+  .cell.locked{opacity:.4}
+  .cell.locked img{filter:grayscale(1) brightness(.5)}
+  .cell .no{color:var(--dim)}
+  /* emakimono (絵巻物) */
+  #emakiCard{width:100%;max-width:1500px;height:90vh;display:flex;flex-direction:column;gap:12px}
+  #emakiScroll{flex:1;min-height:0;display:flex;flex-direction:row;align-items:center;
+    overflow-x:auto;overflow-y:hidden;cursor:grab;background:#0a1120;
+    border:1px solid #ffffff1e;border-radius:4px;scrollbar-width:thin}
+  #emakiScroll.drag{cursor:grabbing}
+  .emaki-pane{flex:0 0 auto;height:100%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:20px 0;line-height:0}
+  .emaki-pane img{height:76%;width:auto;max-width:none;display:block;box-shadow:0 10px 40px #000a}
+  .emaki-pane figcaption{line-height:1.4;margin-top:14px;color:var(--gold);
+    font-size:12px;letter-spacing:.16em;white-space:nowrap}
+  .emaki-bar{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+  .emaki-hint{color:var(--dim);font-size:12px;letter-spacing:.16em}
+  .emaki-empty{color:var(--foam);text-align:center;padding:70px 20px;line-height:2.2;letter-spacing:.14em}
+  /* certificate (完破の証) */
+  #certCard canvas{width:100%;max-width:900px;height:auto;border:1px solid #ffffff1e;border-radius:2px;margin:0 auto;display:block}
+  @media(max-width:560px){#frame img{max-height:52vh}}
+</style>
+</head>
+<body>
+
+<div id="world">
+  <header>
+    <h1>冨嶽三十六景</h1>
+    <div class="sub">HOKUSAI ・ PIXEL ・ FIND THE DETAILS</div>
+  </header>
+  <div id="hud">
+    <div><b id="cnt">0</b> / <span id="tot">0</span> 完成</div>
+    <button id="zBtn">図鑑 ZUKAN</button>
+    <button id="emakiBtn">絵巻 EMAKI</button>
+    <button id="certBtn">証書 CERT</button>
+    <button id="bgmBtn" title="BGM">🔊</button>
+  </div>
+  <div id="maparea"></div>
+</div>
+
+<div id="scene">
+  <div id="sTop">
+    <div id="sTitle"></div>
+  </div>
+  <button id="sBack">← 地図へ戻る</button>
+  <div id="stage">
+    <div id="frame">
+      <img id="sImg" alt="">
+      <div id="ripple"></div>
+    </div>
+  </div>
+  <div id="finds"></div>
+</div>
+
+<div class="veil" id="unlock"><div class="card" id="unlockCard"></div></div>
+<div class="veil" id="zukan"><div class="card" id="zukanCard"></div></div>
+<div class="veil" id="emaki"><div id="emakiCard"></div></div>
+<div class="veil" id="cert"><div class="card" id="certCard"></div></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const LS='fugaku.progress.v1';
+let PRINTS=[], DATA=null, prog=load(), cur=null;
+
+function load(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch{return{}}}
+function save(){localStorage.setItem(LS,JSON.stringify(prog))}
+function foundOf(slug){return prog[slug]||[]}
+function done(slug){const p=byslug(slug);return p&&p.hits&&foundOf(slug).length>=p.hits.length}
+function byslug(s){return PRINTS.find(p=>p.slug===s)}
+
+// ---- 地理擺位:各令制國在底圖上的位置(比例) + 同國多景以黃金角散開 ----
+const PROV={
+  owari:[0.30,0.63], mikawa:[0.42,0.71], totomi:[0.45,0.78], shinano:[0.45,0.53],
+  kai:[0.585,0.57], suruga:[0.53,0.71], fuji:[0.555,0.645], sagami:[0.635,0.75],
+  edo:[0.76,0.78], hitachi:[0.87,0.63], kazusa:[0.83,0.92], shimosa:[0.84,0.85]
+};
+const FUJI_POS=[0.555,0.75];
+const SPREAD={edo:0.09, kai:0.05, suruga:0.055, sagami:0.055};
+function provOf(p){
+  const v=p.ja+(p.viewpoint||''), h=k=>v.includes(k);
+  if(p.ja==='凱風快晴'||p.ja==='山下白雨'||p.ja==='諸人登山') return 'fuji';
+  if(h('信州')||h('諏訪')) return 'shinano';
+  if(h('甲州')||h('身延')) return 'kai';
+  if(h('駿州')||h('田子')||h('大野')||h('片倉')) return 'suruga';
+  if(h('遠江')||h('金谷')) return 'totomi';
+  if(h('吉田')||h('三河')) return 'mikawa';
+  if(h('尾州')||h('尾張')) return 'owari';
+  if(h('常州')||h('牛堀')) return 'hitachi';
+  if(h('上総')) return 'kazusa';
+  if(h('登戸')||h('下総')) return 'shimosa';
+  if(h('相州')||h('神奈川')||h('箱根')||h('江の島')||h('七里')||h('梅澤')||h('仲原')) return 'sagami';
+  return 'edo';
+}
+function computePositions(){
+  // 優先用逐幅顯式座標 pos;沒有的才退回令制國中心+黃金角散開
+  const g={};
+  PRINTS.forEach(p=>{ if(p.pos){p._x=p.pos[0];p._y=p.pos[1];} else {const k=provOf(p);(g[k]=g[k]||[]).push(p);} });
+  Object.entries(g).forEach(([k,arr])=>{
+    const c=PROV[k]||PROV.edo, rad=SPREAD[k]||0.028;
+    arr.forEach((p,i)=>{
+      if(arr.length===1){p._x=c[0];p._y=c[1];return;}
+      const a=i*2.399963, rr=rad*Math.sqrt((i+0.6)/arr.length);
+      p._x=c[0]+rr*Math.cos(a);
+      p._y=c[1]+rr*Math.sin(a)*1.42;
+    });
+  });
+}
+
+const FUJI_SVG=`<svg id="fuji" width="66" height="50" viewBox="0 0 150 112">
+  <polygon points="75,6 128,104 22,104" fill="#3a4f6b"/>
+  <polygon points="75,6 100,52 88,46 79,58 70,44 60,56 50,48" fill="#f7f2e6"/>
+  <polygon points="75,6 128,104 108,104 75,40 42,104 22,104" fill="#1a2740" opacity=".3"/>
+</svg>`;
+
+function drawWorld(){
+  const area=$('#maparea');
+  area.innerHTML='<div id="mapinner"><img id="mapimg" src="game-assets/overworld.jpg" alt="日本図"><div class="scrim"></div></div>';
+  const inner=$('#mapinner'), img=$('#mapimg');
+  const render=()=>{
+    computePositions();
+    const [fx,fy]=FUJI_POS;
+    inner.insertAdjacentHTML('beforeend', FUJI_SVG);
+    $('#fuji').style.left=(fx*100)+'%'; $('#fuji').style.top=(fy*100)+'%';
+    inner.insertAdjacentHTML('beforeend',
+      `<div id="fujiLabel" style="left:${fx*100}%;top:${fy*100+2.5}%">富士</div>`);
+    PRINTS.forEach(p=>{
+      const playable=!!(p.hits&&p.hits.length);
+      const el=document.createElement('div');
+      el.className='node '+(done(p.slug)?'done':playable?'play':'locked');
+      el.style.left=(p._x*100)+'%'; el.style.top=(p._y*100)+'%';
+      el.innerHTML=`<div class="tip">${p.ja}<br><small>${p.romaji}</small></div>`;
+      if(playable) el.onclick=()=>openScene(p);
+      inner.appendChild(el);
+    });
+    $('#cnt').textContent=PRINTS.filter(p=>done(p.slug)).length;
+    $('#tot').textContent=PRINTS.filter(p=>p.hits&&p.hits.length).length;
+  };
+  if(img.complete && img.naturalWidth) render(); else img.onload=render;
+}
+
+// ---------- scene ----------
+function openScene(p){
+  cur=p;
+  $('#sTitle').innerHTML=`<b>${p.ja}</b><span>${p.romaji}</span>`;
+  const img=$('#sImg'); img.src='game-assets/scenes/'+p.slug+'.png';
+  $('#scene').classList.add('on');
+  img.onload=()=>renderFinds();
+  if(img.complete) renderFinds();
+}
+function renderFinds(){
+  document.querySelectorAll('.mark').forEach(m=>m.remove());
+  const got=foundOf(cur.slug);
+  $('#finds').innerHTML=cur.hits.map((h,i)=>
+    `<div class="find ${got.includes(i)?'got':''}"><span class="dot"></span><span class="lbl">${got.includes(i)?h.label:'？？？'}</span></div>`).join('');
+  got.forEach(i=>drawMark(i));
+  if(got.length>=cur.hits.length && !cur._justOpened) {/* already complete: allow reopen unlock via button? keep silent */}
+}
+function drawMark(i){
+  const img=$('#sImg'), fr=$('#frame'), h=cur.hits[i].rect;
+  const w=img.clientWidth, ht=img.clientHeight, ox=img.offsetLeft, oy=img.offsetTop;
+  const m=document.createElement('div'); m.className='mark';
+  m.style.left=(ox+h[0]*w)+'px'; m.style.top=(oy+h[1]*ht)+'px';
+  m.style.width=(h[2]*w)+'px'; m.style.height=(h[3]*ht)+'px';
+  m.innerHTML=`<b>${cur.hits[i].label}</b>`;
+  fr.appendChild(m);
+}
+$('#sImg').addEventListener('click',e=>{
+  const img=e.currentTarget, r=img.getBoundingClientRect();
+  const nx=(e.clientX-r.left)/r.width, ny=(e.clientY-r.top)/r.height;
+  // ripple
+  const rp=$('#ripple'); rp.style.left=(img.offsetLeft+nx*img.clientWidth)+'px';
+  rp.style.top=(img.offsetTop+ny*img.clientHeight)+'px'; rp.classList.remove('go'); void rp.offsetWidth; rp.classList.add('go');
+  const got=foundOf(cur.slug);
+  for(let i=0;i<cur.hits.length;i++){
+    if(got.includes(i)) continue;
+    const [x,y,w,h]=cur.hits[i].rect;
+    if(nx>=x&&nx<=x+w&&ny>=y&&ny<=y+h){
+      got.push(i); prog[cur.slug]=got; save();
+      drawMark(i); renderFinds();
+      if(got.length>=cur.hits.length) setTimeout(()=>showUnlock(cur),650);
+      return;
+    }
+  }
+});
+$('#sBack').onclick=()=>{$('#scene').classList.remove('on');drawWorld()};
+
+// ---------- unlock ----------
+function showUnlock(p){
+  $('#unlockCard').innerHTML=`
+    <h2>${p.ja}</h2>
+    <div class="prov">${p.romaji} ・ ${p.en}</div>
+    <div class="fuji-note">富士はどこに — ${p.suit?p.suit.fuji:''}</div>
+    <img src="game-assets/originals/${p.slug}.jpg" alt="${p.romaji}">
+    <div class="prov">${p.viewpoint}<br>The Metropolitan Museum of Art ・ Open Access (CC0)</div>
+    <div class="row">
+      <button onclick="closeVeil()">図鑑に収める</button>
+      <button onclick="nextPrint()">次の眺望 →</button>
+    </div>`;
+  $('#unlock').classList.add('on');
+}
+function closeVeil(){$('#unlock').classList.remove('on');$('#scene').classList.remove('on');drawWorld()}
+function nextPrint(){
+  const play=PRINTS.filter(p=>p.hits&&p.hits.length);
+  const next=play.find(p=>!done(p.slug));
+  $('#unlock').classList.remove('on');
+  if(next) openScene(next); else {closeVeil();showZukan()}
+}
+
+// ---------- zukan ----------
+$('#zBtn').onclick=showZukan;
+function showZukan(){
+  const cells=PRINTS.map(p=>{
+    const dn=done(p.slug), playable=p.hits&&p.hits.length;
+    return `<div class="cell ${dn?'':'locked'}">
+      ${dn?`<img src="game-assets/originals/${p.slug}.jpg">`:playable?`<img src="game-assets/scenes/${p.slug}.png">`:`<div style="aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;color:var(--dim)">未</div>`}
+      <div class="no">${String(p.n).padStart(2,'0')} ${p.group}</div>${p.ja}</div>`}).join('');
+  $('#zukanCard').innerHTML=`<h2>図鑑</h2><div class="prov">解鎖 ${PRINTS.filter(p=>done(p.slug)).length} / ${PRINTS.length}　（本切片可玩 ${PRINTS.filter(p=>p.hits).length} 幅）</div>
+    <div class="grid">${cells}</div><div class="row"><button onclick="document.getElementById('zukan').classList.remove('on')">閉じる</button></div>`;
+  $('#zukan').classList.add('on');
+}
+
+// ---------- BGM: Web Audio chiptune (yō-scale pentatonic) ----------
+const BGM_LS='fugaku.bgm';
+let actx=null, master=null, bgmOn=(localStorage.getItem(BGM_LS)!=='off'), bgmPlaying=false, bgmTimer=null;
+const YO=[293.66,329.63,392.00,440.00,493.88,587.33,659.25]; // D E G A B D5 E5
+const BEAT=0.46;
+// [scaleIndex,beats]  index -1 = rest
+const MEL=[
+  [0,2],[2,1],[3,1],[4,2],[3,1],[1,1],
+  [2,2],[3,1],[2,1],[0,2],[-1,1],[2,1],
+  [3,2],[4,1],[5,1],[6,2],[4,1],[3,1],
+  [2,2],[0,1],[2,1],[3,3],[-1,1]
+];
+function bgmIcon(){$('#bgmBtn').textContent=bgmOn?'🔊':'🔇';}
+function initAudio(){
+  if(actx) return;
+  actx=new (window.AudioContext||window.webkitAudioContext)();
+  master=actx.createGain(); master.gain.value=0; master.connect(actx.destination);
+  const dl=actx.createDelay(); dl.delayTime.value=0.28;          // reverb-ish feedback echo
+  const fb=actx.createGain(); fb.gain.value=0.28;
+  const wet=actx.createGain(); wet.gain.value=0.32;
+  master.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(actx.destination);
+}
+function voice(freq,start,dur,type,vol){
+  const o=actx.createOscillator(), g=actx.createGain();
+  o.type=type; o.frequency.value=freq; o.connect(g); g.connect(master);
+  const atk=0.02, rel=Math.min(0.25,dur*0.5);
+  g.gain.setValueAtTime(0,start);
+  g.gain.linearRampToValueAtTime(vol,start+atk);
+  g.gain.setValueAtTime(vol,start+Math.max(atk,dur-rel));
+  g.gain.linearRampToValueAtTime(0,start+dur);
+  o.start(start); o.stop(start+dur+0.03);
+}
+function scheduleLoop(){
+  if(!bgmPlaying||!actx) return;
+  const t0=actx.currentTime+0.06; let t=t0, total=0;
+  MEL.forEach(([i,b])=>{ const d=b*BEAT; if(i>=0) voice(YO[i],t,d*0.9,'triangle',0.16); t+=d; total+=d; });
+  voice(146.83,t0,total/2,'sine',0.10);           // D3 drone
+  voice(196.00,t0+total/2,total/2,'sine',0.09);   // G3 drone
+  bgmTimer=setTimeout(scheduleLoop,total*1000);
+}
+function startBgm(){
+  if(bgmPlaying) return;
+  initAudio(); if(actx.state==='suspended') actx.resume();
+  bgmPlaying=true;
+  master.gain.cancelScheduledValues(actx.currentTime);
+  master.gain.setValueAtTime(master.gain.value,actx.currentTime);
+  master.gain.linearRampToValueAtTime(0.6,actx.currentTime+1.6);
+  scheduleLoop();
+}
+function stopBgm(){
+  bgmPlaying=false; if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}
+  if(master){master.gain.cancelScheduledValues(actx.currentTime);
+    master.gain.setValueAtTime(master.gain.value,actx.currentTime);
+    master.gain.linearRampToValueAtTime(0,actx.currentTime+0.4);}
+}
+function toggleBgm(){
+  bgmOn=!bgmOn; localStorage.setItem(BGM_LS,bgmOn?'on':'off'); bgmIcon();
+  if(bgmOn) startBgm(); else stopBgm();
+}
+$('#bgmBtn').onclick=toggleBgm; bgmIcon();
+// autoplay policy: kick off on first user gesture, only if not muted
+addEventListener('pointerdown',function firstGesture(){
+  removeEventListener('pointerdown',firstGesture);
+  if(bgmOn) startBgm();
+},{once:true});
+
+// ---------- Emakimono (絵巻物) right-to-left handscroll ----------
+let emakiRAF=null, emakiPlaying=false, emakiPos=0, emakiTouched=false;
+$('#emakiBtn').onclick=showEmaki;
+function showEmaki(){
+  const unlocked=PRINTS.filter(p=>done(p.slug)).sort((a,b)=>b.n-a.n); // leftmost=highest n, rightmost=n1
+  const card=$('#emakiCard'); emakiTouched=false; emakiPlaying=false;
+  if(emakiRAF){cancelAnimationFrame(emakiRAF);emakiRAF=null;}
+  if(!unlocked.length){
+    card.innerHTML=`<div class="emaki-empty">まだ一景も収めていません。<br>眺望を解鎖すると、この絵巻がひらきます。</div>
+      <div class="emaki-bar"><button onclick="closeEmaki()">閉じる</button></div>`;
+  }else{
+    const strip=unlocked.map(p=>`<figure class="emaki-pane"><img src="game-assets/originals/${p.slug}.jpg" alt="${p.romaji}" onload="pinEmaki()"><figcaption>${String(p.n).padStart(2,'0')} ${p.ja}</figcaption></figure>`).join('');
+    card.innerHTML=`<div id="emakiScroll">${strip}</div>
+      <div class="emaki-bar"><button id="emakiPlay">▶ 自動でひらく</button>
+      <span class="emaki-hint">右から左へ ・ ドラッグ／スクロールで巻き戻し</span>
+      <button onclick="closeEmaki()">閉じる</button></div>`;
+    $('#emakiPlay').onclick=toggleEmakiPlay;
+    setupEmakiDrag();
+    requestAnimationFrame(pinEmaki);
+  }
+  $('#emaki').classList.add('on');
+}
+function pinEmaki(){ if(emakiTouched) return; const sc=$('#emakiScroll'); if(sc) sc.scrollLeft=sc.scrollWidth; }
+function setupEmakiDrag(){
+  const sc=$('#emakiScroll'); let down=false,sx=0,sl=0;
+  sc.onpointerdown=e=>{down=true;emakiTouched=true;sx=e.clientX;sl=sc.scrollLeft;sc.classList.add('drag');sc.setPointerCapture(e.pointerId);};
+  sc.onpointermove=e=>{if(down)sc.scrollLeft=sl-(e.clientX-sx);};
+  sc.onpointerup=sc.onpointercancel=()=>{down=false;sc.classList.remove('drag');};
+  sc.onwheel=()=>{emakiTouched=true;};
+}
+function toggleEmakiPlay(){
+  const sc=$('#emakiScroll'); if(!sc) return;
+  emakiPlaying=!emakiPlaying; emakiTouched=true;
+  $('#emakiPlay').textContent=emakiPlaying?'⏸ 停止':'▶ 自動でひらく';
+  if(emakiPlaying){emakiPos=sc.scrollLeft; emakiTick();}
+  else if(emakiRAF){cancelAnimationFrame(emakiRAF);emakiRAF=null;}
+}
+function emakiTick(){
+  const sc=$('#emakiScroll'); if(!sc||!emakiPlaying){emakiPlaying=false;return;}
+  emakiPos-=0.7; sc.scrollLeft=emakiPos;                 // unroll right → left
+  if(emakiPos<=0){sc.scrollLeft=0;emakiPlaying=false;emakiRAF=null;$('#emakiPlay').textContent='▶ 自動でひらく';return;}
+  emakiRAF=requestAnimationFrame(emakiTick);
+}
+function closeEmaki(){
+  emakiPlaying=false; if(emakiRAF){cancelAnimationFrame(emakiRAF);emakiRAF=null;}
+  $('#emaki').classList.remove('on');
+}
+
+// ---------- Completion certificate (完破の証) ----------
+$('#certBtn').onclick=showCert;
+function rankOf(d,tot){
+  if(tot>0&&d>=tot) return {ja:'北斎の眼',en:'The Eye of Hokusai'};
+  if(d>=104) return {ja:'冨嶽行者',en:'Pilgrim of Fuji'};
+  if(d>=69)  return {ja:'浮世絵師',en:'Master of the Floating World'};
+  if(d>=35)  return {ja:'絵師',en:'Picture Maker'};
+  return {ja:'見習',en:'Apprentice'};
+}
+function drawSeigaiha(ctx,x,y,w,h,r,stroke){
+  ctx.save(); ctx.beginPath(); ctx.rect(x,y,w,h); ctx.clip();
+  ctx.strokeStyle=stroke; ctx.lineWidth=2;
+  const dx=r, dy=r*0.62;
+  for(let row=0,oy=y;oy<y+h+r;row++,oy+=dy){
+    const shift=(row%2)?dx/2:0;
+    for(let ox=x-dx;ox<x+w+dx;ox+=dx){
+      for(let k=3;k>=1;k--){ ctx.beginPath(); ctx.arc(ox+shift,oy,r*k/3,Math.PI,Math.PI*2); ctx.stroke(); }
+    }
+  }
+  ctx.restore();
+}
+function drawSeal(ctx,cx,cy,r){
+  ctx.save(); ctx.translate(cx,cy);
+  ctx.strokeStyle='#c0392b'; ctx.lineWidth=6;
+  ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.stroke();
+  ctx.fillStyle='#c0392b'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.font='700 40px "Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
+  ctx.fillText('踏',0,-r*0.34); ctx.fillText('破',0,r*0.34);
+  ctx.restore(); ctx.textBaseline='alphabetic';
+}
+function drawCertificate(cv){
+  const ctx=cv.getContext('2d'), W=cv.width, H=cv.height;
+  const printsTot=PRINTS.length||46, printsDone=PRINTS.filter(p=>done(p.slug)).length;
+  let detFound=0, detTot=0;
+  PRINTS.forEach(p=>{const n=(p.hits||[]).length; detTot+=n; detFound+=Math.min(foundOf(p.slug).length,n);});
+  const rank=rankOf(detFound,detTot);
+  const bg=ctx.createLinearGradient(0,0,0,H); bg.addColorStop(0,'#16233c'); bg.addColorStop(1,'#0e1626');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  drawSeigaiha(ctx,0,0,W,H,46,'rgba(80,113,124,.5)');
+  const rg=ctx.createRadialGradient(W/2,H/2,80,W/2,H/2,W*0.62);
+  rg.addColorStop(0,'rgba(14,22,38,.9)'); rg.addColorStop(1,'rgba(14,22,38,.18)');
+  ctx.fillStyle=rg; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#e3b23c'; ctx.lineWidth=4; ctx.strokeRect(40,40,W-80,H-80);
+  ctx.strokeStyle='rgba(227,178,60,.55)'; ctx.lineWidth=1.5; ctx.strokeRect(52,52,W-104,H-104);
+  ctx.textAlign='center';
+  ctx.fillStyle='#f2ecdd'; ctx.font='500 40px "Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
+  ctx.fillText('冨嶽三十六景',W/2,168);
+  ctx.fillStyle='#e3b23c'; ctx.font='700 92px "Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
+  ctx.fillText('踏破之証',W/2,288);
+  ctx.fillStyle='#6a7793'; ctx.font='400 22px serif'; ctx.fillText('― 号 ―',W/2,376);
+  ctx.fillStyle='#e3b23c'; ctx.font='600 56px "Hiragino Mincho ProN",serif'; ctx.fillText(rank.ja,W/2,446);
+  ctx.fillStyle='#6a7793'; ctx.font='400 18px serif'; ctx.fillText(rank.en,W/2,482);
+  ctx.fillStyle='#f2ecdd'; ctx.font='400 30px "Hiragino Mincho ProN",serif';
+  ctx.fillText(`踏破 ${printsDone} / ${printsTot} 景　　細見 ${detFound} / ${detTot}`,W/2,588);
+  ctx.fillStyle='#6a7793'; ctx.font='400 16px serif';
+  ctx.fillText('冨嶽三十六景 ピクセル ・ HOKUSAI PIXEL',W/2,H-66);
+  drawSeal(ctx,W-176,H-176,76);
+}
+function showCert(){
+  const card=$('#certCard');
+  card.innerHTML=`<h2>完破の証</h2>
+    <canvas id="certCanvas" width="1200" height="850"></canvas>
+    <div class="row"><button id="certSave">PNG を保存</button>
+    <button id="certClose">閉じる</button></div>`;
+  drawCertificate($('#certCanvas'));
+  $('#certSave').onclick=()=>{const a=document.createElement('a');a.download='fugaku-toha-no-akashi.png';a.href=$('#certCanvas').toDataURL('image/png');a.click();};
+  $('#certClose').onclick=()=>$('#cert').classList.remove('on');
+  $('#cert').classList.add('on');
+}
+
+addEventListener('resize',()=>{if($('#scene').classList.contains('on'))renderFinds()});
+addEventListener('keydown',e=>{if(e.key==='Escape'){$('#unlock').classList.remove('on');$('#zukan').classList.remove('on');closeEmaki();$('#cert').classList.remove('on');if($('#scene').classList.contains('on')){$('#scene').classList.remove('on');drawWorld()}}});
+
+// ---------- boot ----------
+fetch('data/prints.json').then(r=>r.json()).then(d=>{
+  DATA=d; PRINTS=d.prints; drawWorld();
+}).catch(e=>{
+  document.body.innerHTML='<p style="padding:40px;line-height:2">讀不到 data/prints.json。<br>請用靜態伺服器開啟：<code>python3 -m http.server</code> 然後開 http://localhost:8000</p>';
+});
+</script>
+</body>
+</html>
