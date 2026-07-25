@@ -93,6 +93,19 @@
     box-shadow:0 6px 24px #000c;background-repeat:no-repeat;background-color:#0e1626;
     image-rendering:auto;pointer-events:none;display:none;z-index:5}
   #loupe.on{display:block}
+  /* ---------- gate (首次載入的標題卡:那一下點擊解鎖音訊,開場才有聲音) ---------- */
+  #gate{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;
+    background:radial-gradient(120% 100% at 50% 45%,#1b2c47,#070c16 70%);cursor:pointer;
+    transition:opacity .7s}
+  #gate.on{display:flex}
+  #gateInner{text-align:center;color:var(--foam);animation:gateIn 1.4s ease-out}
+  #gateInner h1{font-size:clamp(24px,5vw,44px);letter-spacing:.3em;font-weight:600;text-shadow:0 2px 24px #000}
+  #gateInner .sub{color:var(--dim);font-size:11px;letter-spacing:.3em;margin-top:10px}
+  #gateFuji{margin:34px auto 26px;display:block;filter:drop-shadow(0 4px 18px #000c)}
+  #gateStart{color:var(--gold);font-size:15px;letter-spacing:.3em;animation:breathe 2.6s ease-in-out infinite}
+  #gateNote{color:var(--dim);font-size:11px;letter-spacing:.2em;margin-top:10px}
+  @keyframes gateIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
   /* ---------- intro / opening ---------- */
   #intro{position:fixed;inset:0;z-index:60;background:#070c16;overflow:hidden;display:none}
   #intro.on{display:block}
@@ -191,6 +204,21 @@
   <div id="maparea"></div>
 </div>
 
+<div id="gate">
+  <div id="gateInner">
+    <h1>冨嶽三十六景 ピクセル</h1>
+    <div class="sub">HOKUSAI ・ THIRTY-SIX VIEWS OF MOUNT FUJI</div>
+    <svg id="gateFuji" width="150" height="96" viewBox="0 0 200 130" aria-hidden="true">
+      <defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#4a6180"/><stop offset="1" stop-color="#2b3f5a"/></linearGradient></defs>
+      <path d="M8,124 C46,88 66,58 88,26 L100,29 L112,26 C134,58 154,88 192,124 Z" fill="url(#gg)"/>
+      <path d="M88,26 L100,29 L112,26 C121,43 129,57 136,70 C131,66 129,76 123,69 C118,79 114,67 109,73 C105,81 101,67 98,75 C94,67 90,81 86,73 C82,67 78,79 73,70 C68,76 66,66 64,70 C71,57 79,43 88,26 Z" fill="#f7f2e6"/>
+    </svg>
+    <div id="gateStart" data-i18n="gate_start">點擊開始</div>
+    <div id="gateNote" data-i18n="gate_note">（含音樂）</div>
+  </div>
+</div>
+
 <div id="intro">
   <div id="introMap"><img id="introImg" alt="日本図" src="game-assets/intro-japan.jpg"></div>
   <div id="introVeil"></div>
@@ -255,6 +283,7 @@ const I18N={
   emaki_empty:{zh:'尚未收藏任何一景。<br>解鎖眺望後，這卷繪卷便會展開。',ja:'まだ一景も収めていません。<br>眺望を解鎖すると、この絵巻がひらきます。'},
   cert_h2:{zh:'完破之證',ja:'完破の証'}, cert_save:{zh:'儲存 PNG',ja:'PNG を保存'},
   cert_go:{zh:'― 號 ―',ja:'― 号 ―'}, skip:{zh:'跳過 ▶',ja:'スキップ ▶'}, replay:{zh:'↺ 重看',ja:'↺ 最初から'},
+  gate_start:{zh:'點擊開始',ja:'タップして始める'}, gate_note:{zh:'（含音樂）',ja:'（音楽が流れます）'},
 };
 const FIND_N={zh:n=>`在畫中尋找這 <b>${n}</b> 處`, ja:n=>`画中の この<b>${n}</b>つを探す`};
 const ZUKAN_CT={zh:(a,b)=>`解鎖 ${a} / ${b}`, ja:(a,b)=>`収蔵 ${a} / ${b}`};
@@ -861,7 +890,17 @@ applyLang();
 fetch('data/prints.json').then(r=>r.json()).then(d=>{
   DATA=d; PRINTS=d.prints; drawWorld();
   applyLang();
-  try{ if(!localStorage.getItem(INTRO_LS)) playIntro(); }catch(e){}
+  // 首次載入:先出標題卡。瀏覽器要有使用者手勢才能發聲,靠這一下點擊解鎖音訊,開場才有配樂
+  let seen=false; try{ seen=!!localStorage.getItem(INTRO_LS); }catch(e){}
+  if(!seen){
+    const gate=$('#gate'); gate.classList.add('on');
+    gate.addEventListener('pointerdown',()=>{
+      if(bgmOn) startBgm();                      // 在手勢當下啟動,zoom-in 一開始就有聲音
+      gate.style.opacity='0';
+      setTimeout(()=>{ gate.classList.remove('on'); gate.style.opacity=''; },700);
+      playIntro();
+    },{once:true});
+  }
 }).catch(e=>{
   document.body.innerHTML='<p style="padding:40px;line-height:2">讀不到 data/prints.json。<br>請用靜態伺服器開啟：<code>python3 -m http.server</code> 然後開 http://localhost:8000</p>';
 });
