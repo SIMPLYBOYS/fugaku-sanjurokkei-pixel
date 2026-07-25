@@ -44,6 +44,9 @@
     box-shadow:0 0 0 2px #0a1120cc,0 0 0 0 #e3b23c88;animation:pulse 2.4s infinite}
   .node.done{background:#7fb0c4;border-color:#0a1120;box-shadow:0 0 0 2px #0a1120cc,0 1px 3px #000a}
   .node.play:hover,.node.done:hover,.node.locked:hover{transform:translate(-50%,-50%) scale(1.55)}
+  /* .tip 是 .node 的子元素,其 z-index 只在 .node 的堆疊脈絡內有效——
+     必須抬高 .node 本身,圖卡才不會被 DOM 在後的其他站點蓋住 */
+  .node:hover{z-index:9}
   .node.locked{opacity:.5}
   .node .tip{position:absolute;left:50%;top:-8px;transform:translate(-50%,-100%);white-space:nowrap;
     background:#000d;padding:5px 10px;border-radius:2px;font-size:12px;letter-spacing:.12em;line-height:1.5;opacity:0;
