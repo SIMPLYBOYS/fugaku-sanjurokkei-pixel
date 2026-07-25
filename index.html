@@ -28,6 +28,15 @@
   button{font-family:inherit;background:#0003;color:var(--foam);border:1px solid #ffffff30;
     padding:7px 14px;border-radius:2px;letter-spacing:.2em;font-size:12px;cursor:pointer;transition:.15s}
   button:hover{background:var(--gold);color:var(--navy2);border-color:var(--gold)}
+  /* 窄螢幕:標題改左對齊並在右側留白給 HUD,否則副標會折行並壓在按鈕下 */
+  @media (max-width:600px){
+    #world header{padding:11px 92px 22px 16px;text-align:left}
+    #world h1{font-size:21px;letter-spacing:.18em}
+    #world .sub{font-size:10px;letter-spacing:.08em;margin-top:5px;white-space:nowrap}
+    #hud{top:10px;right:10px;font-size:11px}
+    #hud b{font-size:13px}
+    #hud button{padding:5px 9px;font-size:11px;letter-spacing:.1em;margin-top:6px}
+  }
   #maparea{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
   #mapinner{position:relative;line-height:0}
   #mapinner img{display:block;max-width:100vw;max-height:100vh}
