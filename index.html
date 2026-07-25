@@ -568,7 +568,7 @@ function showZukan(){
 
 // ---------- BGM: Web Audio chiptune (yō-scale pentatonic) ----------
 const BGM_LS='fugaku.bgm';
-let actx=null, master=null, bgmOn=(localStorage.getItem(BGM_LS)!=='off'), bgmPlaying=false, bgmTimer=null;
+let actx=null, master=null, bgmOn=(localStorage.getItem(BGM_LS)!=='off'), bgmPlaying=false, bgmTimer=null, live=[];
 // 三曲輪替。scale=音階(Hz), mel=[音階序號,拍數] (-1=休止), drones=[Hz,起點比例,長度比例,音量]
 const TRACKS=[
   { // 一「凱風」陽旋法 D — 明朗、悠緩(原曲)
@@ -623,6 +623,7 @@ function voice(freq,start,dur,type,vol,pluck){
     g.gain.linearRampToValueAtTime(0,start+dur);
   }
   o.start(start); o.stop(start+dur+0.03);
+  live.push(o); o.onended=()=>{ const i=live.indexOf(o); if(i>=0) live.splice(i,1); };
 }
 function scheduleLoop(){
   if(!bgmPlaying||!actx) return;
@@ -649,10 +650,16 @@ function startBgm(){
   scheduleLoop();
 }
 function stopBgm(){
-  bgmPlaying=false; if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}
-  if(master){master.gain.cancelScheduledValues(actx.currentTime);
-    master.gain.setValueAtTime(master.gain.value,actx.currentTime);
-    master.gain.linearRampToValueAtTime(0,actx.currentTime+0.4);}
+  bgmPlaying=false; loopCount=0;
+  if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}
+  if(!actx||!master) return;
+  const t=actx.currentTime;
+  master.gain.cancelScheduledValues(t);
+  master.gain.setValueAtTime(master.gain.value,t);
+  master.gain.linearRampToValueAtTime(0,t+0.4);
+  // 一次排程整段循環,只降音量不夠——必須真的停掉音源,否則再開時舊音符會與新循環疊在一起
+  live.forEach(o=>{ try{ o.stop(t+0.42); }catch(e){} });
+  live=[];
 }
 function toggleBgm(){
   bgmOn=!bgmOn; localStorage.setItem(BGM_LS,bgmOn?'on':'off'); bgmIcon();
