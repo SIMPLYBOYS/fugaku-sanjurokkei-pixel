@@ -799,6 +799,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){
 
 // ---------- intro / 開場 (全日本 zoom-in → 捲軸字幕 → 進入遊戲) ----------
 const INTRO_LS='fugaku.intro.v1';
+const ZOOM_SECS=9;                    // 開場由全日本推近到遊戲範圍的時間(秒);其餘節奏依此推算
 const EAST={x:0.5,y:0.12,w:0.5,h:0.6};   // overworld 東部裁切在全日本圖中的位置(zoom 終點)
 let introTimers=[];
 function introFit(mode){
@@ -827,13 +828,14 @@ function playIntro(){
     sc.style.transition='none'; sc.style.transform='translateX(-50%) translateY(100vh)';
     void img.offsetWidth;                                   // reflow
     $('#introTitle').classList.add('show');
-    img.style.transition='transform 6.5s cubic-bezier(.45,0,.15,1)'; introApply(introFit('east'));
-    introTimers.push(setTimeout(()=>{ $('#introTitle').classList.remove('show'); $('#introVeil').classList.add('show'); },3600));
+    img.style.transition=`transform ${ZOOM_SECS}s cubic-bezier(.45,0,.15,1)`; introApply(introFit('east'));
+    const tTitle=ZOOM_SECS*550, tCredits=ZOOM_SECS*640;   // 依 zoom 長度按比例推算,調 ZOOM_SECS 即可
+    introTimers.push(setTimeout(()=>{ $('#introTitle').classList.remove('show'); $('#introVeil').classList.add('show'); },tTitle));
     introTimers.push(setTimeout(()=>{
       sc.style.transition='transform 27s linear';
       sc.style.transform='translateX(-50%) translateY(-'+sc.offsetHeight+'px)';
-    },4200));
-    introTimers.push(setTimeout(endIntro,31800));           // 4.2s zoom-in + 27s 捲軸 + margin;計時器代替 transitionend 避免重播殘留
+    },tCredits));
+    introTimers.push(setTimeout(endIntro,tCredits+27800));  // 字幕啟動 + 27s 捲軸 + margin;計時器代替 transitionend 避免重播殘留
   };
   if(img.complete && img.naturalWidth) run(); else img.onload=run;
 }
