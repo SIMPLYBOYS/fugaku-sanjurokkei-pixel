@@ -775,12 +775,48 @@ function closeEmaki(){
 
 // ---------- Completion certificate (完破の証) ----------
 $('#certBtn').onclick=showCert;
+// 五階雅號:各有自己的証書名、朱印與配色;滿分(北斎の眼)另有專屬視覺
+const CERT_TIERS=[
+  {ja:'見習', en:'Apprentice', title:{zh:'道中之証',ja:'道中の証'}, seal:'參',
+   pal:{bg1:'#2b2c30',bg2:'#141518',wave:'rgba(150,152,162,.26)',frame:'#9aa0a6',
+        accent:'#d9d6ce',ink:'#efece6',dim:'#8b8f96',seal:'#a0554e'}},
+  {ja:'絵師', en:'Picture Maker', title:{zh:'道中之証',ja:'道中の証'}, seal:'參',
+   pal:{bg1:'#16233c',bg2:'#0e1626',wave:'rgba(80,113,124,.5)',frame:'#5e8fa8',
+        accent:'#a6cadb',ink:'#f2ecdd',dim:'#6a7793',seal:'#c0392b'}},
+  {ja:'浮世絵師', en:'Master of the Floating World', title:{zh:'登拝之証',ja:'登拝の証'}, seal:'拝',
+   pal:{bg1:'#3b2b22',bg2:'#1d140f',wave:'rgba(184,133,96,.3)',frame:'#c08a52',
+        accent:'#e2b283',ink:'#f4ebdd',dim:'#9a8069',seal:'#b5402e'}},
+  {ja:'冨嶽行者', en:'Pilgrim of Fuji', title:{zh:'登拝之証',ja:'登拝の証'}, seal:'拝',
+   pal:{bg1:'#1c2b60',bg2:'#0b1230',wave:'rgba(124,152,222,.32)',frame:'#8fa8e0',
+        accent:'#bccbf4',ink:'#f0f2fb',dim:'#7b86ab',seal:'#c0392b'}},
+  {ja:'北斎の眼', en:'The Eye of Hokusai', title:{zh:'踏破之証',ja:'踏破の証'}, seal:'踏破', full:true,
+   pal:{bg1:'#1b1207',bg2:'#0d0903',wave:'rgba(227,178,60,.2)',frame:'#e3b23c',
+        accent:'#f2cd72',ink:'#f7f0dd',dim:'#a08a55',seal:'#c0392b'}}
+];
 function rankOf(d,tot){
-  if(tot>0&&d>=tot) return {ja:'北斎の眼',en:'The Eye of Hokusai'};
-  if(d>=104) return {ja:'冨嶽行者',en:'Pilgrim of Fuji'};
-  if(d>=69)  return {ja:'浮世絵師',en:'Master of the Floating World'};
-  if(d>=35)  return {ja:'絵師',en:'Picture Maker'};
-  return {ja:'見習',en:'Apprentice'};
+  if(tot>0&&d>=tot) return CERT_TIERS[4];
+  if(d>=104) return CERT_TIERS[3];
+  if(d>=69)  return CERT_TIERS[2];
+  if(d>=35)  return CERT_TIERS[1];
+  return CERT_TIERS[0];
+}
+const FUJI_BODY='M8,124 C46,88 66,58 88,26 L100,29 L112,26 C134,58 154,88 192,124 Z';
+const FUJI_SNOW='M88,26 L100,29 L112,26 C121,43 129,57 136,70 C131,66 129,76 123,69 C118,79 114,67 109,73 C105,81 101,67 98,75 C94,67 90,81 86,73 C82,67 78,79 73,70 C68,76 66,66 64,70 C71,57 79,43 88,26 Z';
+function drawFuji(ctx,x,baseY,w,body,snow,alpha){   // 滿分專屬:背景的赤富士
+  const s=w/200;
+  ctx.save(); ctx.globalAlpha=alpha; ctx.translate(x-w/2,baseY-124*s); ctx.scale(s,s);
+  ctx.fillStyle=body; ctx.fill(new Path2D(FUJI_BODY));
+  if(snow){ ctx.fillStyle=snow; ctx.fill(new Path2D(FUJI_SNOW)); }
+  ctx.restore();
+}
+function drawKinun(ctx,y,W,h,color,alpha,edgeDown){  // 滿分專屬:金雲帶
+  ctx.save(); ctx.globalAlpha=alpha; ctx.fillStyle=color;
+  ctx.fillRect(0,y,W,h);
+  const edge=edgeDown?y+h:y;
+  let x=-14,i=0;
+  while(x<W+50){ const r=h*(0.30+((i*7)%5)*0.10);   // 圓弧壓小,才像金雲不像光斑
+    ctx.beginPath(); ctx.arc(x+r,edge,r,0,Math.PI*2); ctx.fill(); x+=r*1.5; i++; }
+  ctx.restore();
 }
 function drawSeigaiha(ctx,x,y,w,h,r,stroke){
   ctx.save(); ctx.beginPath(); ctx.rect(x,y,w,h); ctx.clip();
@@ -794,13 +830,15 @@ function drawSeigaiha(ctx,x,y,w,h,r,stroke){
   }
   ctx.restore();
 }
-function drawSeal(ctx,cx,cy,r){
+function drawSeal(ctx,cx,cy,r,text,color){
+  const F='"Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
   ctx.save(); ctx.translate(cx,cy);
-  ctx.strokeStyle='#c0392b'; ctx.lineWidth=6;
+  ctx.strokeStyle=color; ctx.lineWidth=6;
   ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.stroke();
-  ctx.fillStyle='#c0392b'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.font='700 40px "Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
-  ctx.fillText('踏',0,-r*0.34); ctx.fillText('破',0,r*0.34);
+  ctx.fillStyle=color; ctx.textAlign='center'; ctx.textBaseline='middle';
+  if(text.length>=2){ ctx.font='700 40px '+F;
+    ctx.fillText(text[0],0,-r*0.34); ctx.fillText(text[1],0,r*0.34); }
+  else { ctx.font='700 66px '+F; ctx.fillText(text,0,2); }
   ctx.restore(); ctx.textBaseline='alphabetic';
 }
 function drawCertificate(cv){
@@ -808,28 +846,32 @@ function drawCertificate(cv){
   const printsTot=PRINTS.length||46, printsDone=PRINTS.filter(p=>done(p.slug)).length;
   let detFound=0, detTot=0;
   PRINTS.forEach(p=>{const n=(p.hits||[]).length; detTot+=n; detFound+=Math.min(foundOf(p.slug).length,n);});
-  const rank=rankOf(detFound,detTot);
-  const bg=ctx.createLinearGradient(0,0,0,H); bg.addColorStop(0,'#16233c'); bg.addColorStop(1,'#0e1626');
+  const rank=rankOf(detFound,detTot), P=rank.pal, F='"Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
+  const bg=ctx.createLinearGradient(0,0,0,H); bg.addColorStop(0,P.bg1); bg.addColorStop(1,P.bg2);
   ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-  drawSeigaiha(ctx,0,0,W,H,46,'rgba(80,113,124,.5)');
+  drawSeigaiha(ctx,0,0,W,H,46,P.wave);
   const rg=ctx.createRadialGradient(W/2,H/2,80,W/2,H/2,W*0.62);
-  rg.addColorStop(0,'rgba(14,22,38,.9)'); rg.addColorStop(1,'rgba(14,22,38,.18)');
+  rg.addColorStop(0,P.bg2+'e6'); rg.addColorStop(1,P.bg2+'2e');
   ctx.fillStyle=rg; ctx.fillRect(0,0,W,H);
-  ctx.strokeStyle='#e3b23c'; ctx.lineWidth=4; ctx.strokeRect(40,40,W-80,H-80);
-  ctx.strokeStyle='rgba(227,178,60,.55)'; ctx.lineWidth=1.5; ctx.strokeRect(52,52,W-104,H-104);
+  if(rank.full){                          // 滿分專屬:上金雲、下赤富士(傳統構圖,畫在框內襯底)
+    drawKinun(ctx,58,W,34,'#e3b23c',0.17,true);
+    drawFuji(ctx,W/2,H-62,W*0.5,'#8c3526','#e8dcc4',0.20);
+  }
+  ctx.strokeStyle=P.frame; ctx.lineWidth=4; ctx.strokeRect(40,40,W-80,H-80);
+  ctx.strokeStyle=P.frame+'8c'; ctx.lineWidth=1.5; ctx.strokeRect(52,52,W-104,H-104);
   ctx.textAlign='center';
-  ctx.fillStyle='#f2ecdd'; ctx.font='500 40px "Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
+  ctx.fillStyle=P.ink; ctx.font='500 40px '+F;
   ctx.fillText('冨嶽三十六景',W/2,168);
-  ctx.fillStyle='#e3b23c'; ctx.font='700 92px "Hiragino Mincho ProN","Yu Mincho","Songti SC",serif';
-  ctx.fillText('踏破之証',W/2,288);
-  ctx.fillStyle='#6a7793'; ctx.font='400 22px serif'; ctx.fillText(t('cert_go'),W/2,376);
-  ctx.fillStyle='#e3b23c'; ctx.font='600 56px "Hiragino Mincho ProN",serif'; ctx.fillText(rank.ja,W/2,446);
-  ctx.fillStyle='#6a7793'; ctx.font='400 18px serif'; ctx.fillText(rank.en,W/2,482);
-  ctx.fillStyle='#f2ecdd'; ctx.font='400 30px "Hiragino Mincho ProN",serif';
+  ctx.fillStyle=P.accent; ctx.font='700 92px '+F;
+  ctx.fillText(rank.title[LANG]||rank.title.zh,W/2,288);                    // 証書名隨階級:道中/登拝/踏破
+  ctx.fillStyle=P.dim; ctx.font='400 22px serif'; ctx.fillText(t('cert_go'),W/2,376);
+  ctx.fillStyle=P.accent; ctx.font='600 56px '+F; ctx.fillText(rank.ja,W/2,446);
+  ctx.fillStyle=P.dim; ctx.font='400 18px serif'; ctx.fillText(rank.en,W/2,482);
+  ctx.fillStyle=P.ink; ctx.font='400 30px '+F;
   ctx.fillText(`踏破 ${printsDone} / ${printsTot} 景　　細見 ${detFound} / ${detTot}`,W/2,588);
-  ctx.fillStyle='#6a7793'; ctx.font='400 16px serif';
+  ctx.fillStyle=P.dim; ctx.font='400 16px serif';
   ctx.fillText('冨嶽三十六景 ピクセル ・ HOKUSAI PIXEL',W/2,H-66);
-  drawSeal(ctx,W-176,H-176,76);
+  drawSeal(ctx,W-176,H-176,76,rank.seal,P.seal);
 }
 function showCert(){
   const card=$('#certCard');
