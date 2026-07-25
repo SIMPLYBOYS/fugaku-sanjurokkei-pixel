@@ -66,6 +66,13 @@
   #frame{position:relative;line-height:0;box-shadow:0 10px 50px #000b;border:6px solid #0e1626;background:#0e1626}
   #frame img{display:block;width:min(92vw,780px);height:auto;max-height:68vh;image-rendering:pixelated;cursor:crosshair;transition:filter .5s}
   #frame img.real{image-rendering:auto}            /* 已解鎖:顯示真跡,不再像素化 */
+  /* 揭曉用的真跡疊層:先載好、透明備著,找齊時淡入,像素圖在下方溶解 */
+  /* 用雙 ID 提高特異性,否則會被上面的 `#frame img{transition:filter .5s}` 蓋掉,淡入就變成瞬跳 */
+  #frame #sImgReal{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;
+    image-rendering:auto;pointer-events:none;transform:scale(1.012);
+    transition:opacity 1.5s cubic-bezier(.4,0,.2,1),transform 1.8s cubic-bezier(.4,0,.2,1)}
+  #frame #sImgReal.show{opacity:1;transform:none}
+  #sImg.dissolving{filter:saturate(.7) blur(1px);transition:filter 1.2s ease}
   .mark{position:absolute;border:2px solid var(--gold);border-radius:2px;box-shadow:0 0 12px #e3b23c88;
     pointer-events:none;animation:pop .3s ease-out}
   .mark b{position:absolute;left:0;top:-20px;background:var(--gold);color:var(--navy2);font-size:11px;
@@ -242,6 +249,7 @@
   <div id="stage">
     <div id="frame">
       <img id="sImg" alt="">
+      <img id="sImgReal" alt="" aria-hidden="true">
       <div id="ripple"></div>
       <div id="loupe"></div>
     </div>
@@ -426,19 +434,21 @@ function openScene(p){
   cur=p;
   loupeOff();
   $('#sTitle').innerHTML=`<b>${p.ja}</b><span>${p.romaji}</span>`;
-  const img=$('#sImg'), unlocked=done(p.slug);      // 已解鎖就直接看真跡,不再呈現像素版
+  const img=$('#sImg'), real=$('#sImgReal'), unlocked=done(p.slug);  // 已解鎖就直接看真跡,不再呈現像素版
+  real.classList.remove('show'); img.classList.remove('dissolving');
   img.classList.toggle('real',unlocked);
   img.src=unlocked?`game-assets/originals/${p.slug}.jpg`:`game-assets/scenes/${p.slug}.png`;
+  if(unlocked) real.removeAttribute('src');
+  else real.src=`game-assets/originals/${p.slug}.jpg`;   // 預先載好,揭曉時才不會卡頓
   $('#scene').classList.add('on');
   img.onload=()=>renderFinds();
   if(img.complete) renderFinds();
 }
-function revealOriginal(){                          // 找齊三處的一刻:像素還原為真跡
-  const img=$('#sImg');
-  if(img.classList.contains('real')) return;
-  img.onload=()=>renderFinds();
-  img.classList.add('real');
-  img.src=`game-assets/originals/${cur.slug}.jpg`;
+function revealOriginal(){                          // 找齊三處的一刻:像素溶解為真跡
+  const img=$('#sImg'), real=$('#sImgReal');
+  if(img.classList.contains('real')||real.classList.contains('show')) return;
+  if(!real.getAttribute('src')) real.src=`game-assets/originals/${cur.slug}.jpg`;
+  requestAnimationFrame(()=>{ img.classList.add('dissolving'); real.classList.add('show'); });
 }
 function renderFinds(){
   document.querySelectorAll('.mark').forEach(m=>m.remove());
@@ -485,7 +495,7 @@ $('#sImg').addEventListener('click',e=>{
     if(nx>=x&&nx<=x+w&&ny>=y&&ny<=y+h){
       got.push(i); prog[cur.slug]=got; save();
       drawMark(i); renderFinds();
-      if(got.length>=cur.hits.length){ revealOriginal(); setTimeout(()=>showUnlock(cur),650); }
+      if(got.length>=cur.hits.length){ revealOriginal(); setTimeout(()=>showUnlock(cur),1750); }  // 等過場走完再出解鎖卡
       return;
     }
   }
