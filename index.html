@@ -569,15 +569,34 @@ function showZukan(){
 // ---------- BGM: Web Audio chiptune (yō-scale pentatonic) ----------
 const BGM_LS='fugaku.bgm';
 let actx=null, master=null, bgmOn=(localStorage.getItem(BGM_LS)!=='off'), bgmPlaying=false, bgmTimer=null;
-const YO=[293.66,329.63,392.00,440.00,493.88,587.33,659.25]; // D E G A B D5 E5
-const BEAT=0.46;
-// [scaleIndex,beats]  index -1 = rest
-const MEL=[
-  [0,2],[2,1],[3,1],[4,2],[3,1],[1,1],
-  [2,2],[3,1],[2,1],[0,2],[-1,1],[2,1],
-  [3,2],[4,1],[5,1],[6,2],[4,1],[3,1],
-  [2,2],[0,1],[2,1],[3,3],[-1,1]
+// 三曲輪替。scale=音階(Hz), mel=[音階序號,拍數] (-1=休止), drones=[Hz,起點比例,長度比例,音量]
+const TRACKS=[
+  { // 一「凱風」陽旋法 D — 明朗、悠緩(原曲)
+    name:'凱風', scale:[293.66,329.63,392.00,440.00,493.88,587.33,659.25], // D E G A B D5 E5
+    beat:0.46, lead:'triangle', vol:0.16, loops:2,
+    mel:[[0,2],[2,1],[3,1],[4,2],[3,1],[1,1],
+         [2,2],[3,1],[2,1],[0,2],[-1,1],[2,1],
+         [3,2],[4,1],[5,1],[6,2],[4,1],[3,1],
+         [2,2],[0,1],[2,1],[3,3],[-1,1]],
+    drones:[[146.83,0,0.5,0.10],[196.00,0.5,0.5,0.09]] },
+  { // 二「雪の朝」陰旋法(都節) D — 幽玄、沉靜
+    name:'雪の朝', scale:[293.66,311.13,392.00,440.00,466.16,587.33,622.25], // D E♭ G A B♭ D5 E♭5
+    beat:0.56, lead:'sine', vol:0.15, loops:2,
+    mel:[[0,2],[1,1],[2,1],[3,2],[2,1],[1,1],
+         [0,3],[-1,1],
+         [3,2],[4,1],[5,1],[4,2],[3,1],[2,1],
+         [3,2],[1,1],[0,1],[0,4],[-1,2]],
+    drones:[[146.83,0,1,0.09],[220.00,0.5,0.5,0.07]] },
+  { // 三「道中」陽旋法 G — 輕快、旅路;撥弦音色+步行低音
+    name:'道中', scale:[392.00,440.00,523.25,587.33,659.25,783.99,880.00], // G A C5 D5 E5 G5 A5
+    beat:0.30, lead:'square', vol:0.10, loops:3, pluck:true,
+    mel:[[0,1],[2,1],[3,1],[4,1],[3,1],[2,1],[0,2],
+         [2,1],[3,1],[4,1],[5,1],[4,2],[3,2],
+         [4,1],[3,1],[2,1],[0,1],[2,2],[0,2],
+         [-1,2]],
+    bassNotes:[98.00,146.83], bassBeats:2 }   // G2 / D3 交替
 ];
+let trackIdx=0, loopCount=0;
 function bgmIcon(){$('#bgmBtn').textContent=bgmOn?'🔊':'🔇';}
 function initAudio(){
   if(actx) return;
@@ -588,22 +607,34 @@ function initAudio(){
   const wet=actx.createGain(); wet.gain.value=0.32;
   master.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(actx.destination);
 }
-function voice(freq,start,dur,type,vol){
+function voice(freq,start,dur,type,vol,pluck){
   const o=actx.createOscillator(), g=actx.createGain();
   o.type=type; o.frequency.value=freq; o.connect(g); g.connect(master);
-  const atk=0.02, rel=Math.min(0.25,dur*0.5);
   g.gain.setValueAtTime(0,start);
-  g.gain.linearRampToValueAtTime(vol,start+atk);
-  g.gain.setValueAtTime(vol,start+Math.max(atk,dur-rel));
-  g.gain.linearRampToValueAtTime(0,start+dur);
+  if(pluck){                                       // 撥弦:瞬起、指數衰減
+    g.gain.linearRampToValueAtTime(vol,start+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,start+dur);
+  }else{
+    const atk=0.02, rel=Math.min(0.25,dur*0.5);
+    g.gain.linearRampToValueAtTime(vol,start+atk);
+    g.gain.setValueAtTime(vol,start+Math.max(atk,dur-rel));
+    g.gain.linearRampToValueAtTime(0,start+dur);
+  }
   o.start(start); o.stop(start+dur+0.03);
 }
 function scheduleLoop(){
   if(!bgmPlaying||!actx) return;
+  const tr=TRACKS[trackIdx];
   const t0=actx.currentTime+0.06; let t=t0, total=0;
-  MEL.forEach(([i,b])=>{ const d=b*BEAT; if(i>=0) voice(YO[i],t,d*0.9,'triangle',0.16); t+=d; total+=d; });
-  voice(146.83,t0,total/2,'sine',0.10);           // D3 drone
-  voice(196.00,t0+total/2,total/2,'sine',0.09);   // G3 drone
+  tr.mel.forEach(([i,b])=>{ const d=b*tr.beat;
+    if(i>=0) voice(tr.scale[i],t,d*0.9,tr.lead,tr.vol,tr.pluck); t+=d; total+=d; });
+  (tr.drones||[]).forEach(([f,s,len,v])=>voice(f,t0+total*s,total*len,'sine',v));
+  if(tr.bassNotes){                                // 步行低音,自動填滿整段
+    const step=tr.bassBeats*tr.beat; let bt=t0, k=0;
+    while(bt<t0+total-0.01){ voice(tr.bassNotes[k%tr.bassNotes.length],bt,step*0.9,'sine',0.11); bt+=step; k++; }
+  }
+  $('#bgmBtn').title='BGM ・ '+tr.name;
+  if(++loopCount>=(tr.loops||2)){ loopCount=0; trackIdx=(trackIdx+1)%TRACKS.length; }
   bgmTimer=setTimeout(scheduleLoop,total*1000);
 }
 function startBgm(){
